@@ -1,0 +1,49 @@
+{
+  "total_supply": 10011,
+  "data": [{
+    "a_collection_slug": "divineanarchy",
+    "a_token_id": "5878",
+    "a_contract_address_id": "0xc631164b6cb1340b5123c9162f8558c866de1926",
+    "a_image_url": "https://lh3.googleusercontent.com/YzKA1_0BoSdS2KadlovqwrM9sjNZ5wQ1cJERMvonl3_x9ltKWCmSaxbiStGO4cNcVADWgob6eIQHpKxwXw7KZGYbJzmldHLWOlREEg=s128",
+    "a_current_price": null,
+    "a_rarity_score": "20544.46",
+    "a_rarity_rank": 1,
+    "a_traits": [{
+      "name": "Weapon",
+      "value": "Base Buster",
+      "rarity_pct": 0.01
+    }, {
+      "name": "Eyes",
+      "value": "Piercer Eyes",
+      "rarity_pct": 0.01
+    }, {
+      "name": "Hair",
+      "value": "Black Hair Tie",
+      "rarity_pct": 0.43
+    }, {
+      "name": "Clothes",
+      "value": "Bruce Lee Tracksuit",
+      "rarity_pct": 0.73
+    }, {
+      "name": "Mask",
+      "value": "Metal Mempo",
+      "rarity_pct": 1.07
+    }, {
+      "name": "Bloodline",
+      "value": "Genesis",
+      "rarity_pct": 2.52
+    }, {
+      "name": "Background",
+      "value": "9",
+      "rarity_pct": 6.57
+    }, {
+      "name": "Faction",
+      "value": "Hero",
+      "rarity_pct": 49.95
+    }, {
+      "name": "Gender",
+      "value": "Female",
+      "rarity_pct": 49.97
+    }]
+  }]
+}

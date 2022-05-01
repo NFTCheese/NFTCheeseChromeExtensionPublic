@@ -1,0 +1,44 @@
+{
+  "name": "NFTCheese",
+  "description": "The All-in-One NFT Sniping Tool",
+  "version": "1.1.25",
+  "minimum_chrome_version": "93",
+  "manifest_version": 3,
+  "action": {
+    "icons": {
+      "128": "icon_w128.png"
+    },
+    "default_popup": "index.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://opensea.io/*"],
+      "js": ["static/js/content.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "externally_connectable": {
+    "matches": ["https://login.nftcheese.tools/*"]
+  },
+  "background": {
+    "service_worker": "static/js/background.js"
+  },
+  "host_permissions": [
+    "https://nftcheese.net/api/*",
+    "https://*.opensea.io/*"
+  ],
+  "icons": {
+    "128": "icon_w128.png"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["static/js/pageContextInject.js"],
+      "matches": ["https://*.opensea.io/*"]
+    },
+    {
+      "resources": ["notification.mp3"],
+      "matches": ["https://*.opensea.io/*"]
+    }
+  ],
+  "permissions": ["webRequest", "storage", "notifications"]
+}

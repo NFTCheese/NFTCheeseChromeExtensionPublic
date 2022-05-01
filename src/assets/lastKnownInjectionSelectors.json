@@ -1,0 +1,112 @@
+{
+  "assetInfo": {
+    "grid": {
+      "node": {
+        "selector": "article.AssetSearchList--asset",
+        "injectionMethod": "append"
+      },
+      "link": {
+        "selector": ".Asset--anchor",
+        "hierarchy": "either"
+      },
+      "collectionLink": {
+        "selector": ".AssetCardFooter--collection-name",
+        "hierarchy": "either"
+      },
+      "image": {
+        "selector": ".Image--image, .NFTCheese__Image",
+        "hierarchy": "child"
+      }
+    },
+    "list": {
+      "node": {
+        "selector": "div[role=\"listitem\"] .AssetCell--container",
+        "injectionMethod": "prepend"
+      },
+      "link": {
+        "selector": ".AssetCell--link",
+        "hierarchy": "either"
+      },
+      "collectionLink": {
+        "selector": ".CollectionLink--link",
+        "hierarchy": "either"
+      },
+      "image": {
+        "selector": ".Image--image, .NFTCheese__Image",
+        "hierarchy": "child"
+      }
+    },
+    "item": {
+      "node": {
+        "selector": ".item--summary > article, .item--small > article",
+        "injectionMethod": "append"
+      },
+      "link": {
+        "selector": ".AssetCell--link",
+        "hierarchy": "child"
+      },
+      "collectionLink": {
+        "selector": ".CollectionLink--link",
+        "hierarchy": "outside"
+      },
+      "image": {
+        "selector": ".Image--image",
+        "hierarchy": "child"
+      }
+    }
+  },
+  "bundleVerification": {
+    "frameSelector": ".Bundle--summary-frame",
+    "linkSelector": ".Bundle--items-list > a",
+    "headerSelector": ".Panel--header"
+  },
+  "profileSummary": {
+    "accountTitleSelector": ".AccountHeader--subtitle",
+    "accountEnsNameSelector": ".AccountHeader--name",
+    "shortenedAddressSelector": ".AccountHeader--address"
+  },
+  "searchResults": {
+    "menuSelector": "*[class*=\"CollectionPagereact\"] ul[class*=\"Menureact__MenuBase\"]",
+    "containerSelector": ".AssetSearchView--main, .collection--ActivityTabSection",
+    "route": {
+      "url": "/collection?collectionSlug=[COLLECTION_SLUG]&tab=nftcheese",
+      "as": "/collection/[COLLECTION_SLUG]?tab=nftcheese"
+    }
+  },
+  "listingNotifier": {
+    "node": {
+      "selector": ".collection--ActivityTabSection .fresnel-container ~ .fresnel-container ~ *[class*=\"FlexColumnreact\"]",
+      "injectionMethod": "prepend"
+    },
+    "api": {
+      "staticVariables": {
+        "archetype": null,
+        "categories": null,
+        "chains": null,
+        "count": 100,
+        "cursor": null,
+        "eventTypes": ["AUCTION_CREATED"],
+        "identity": null,
+        "showAll": true
+      },
+      "variablePaths": {
+        "collectionSlug": "collections",
+        "timestamp": "eventTimestamp_Gt"
+      },
+      "resultPaths": {
+        "edges": "data.assetEvents.edges",
+        "asset": "node.assetQuantity.asset",
+        "listingId": "node.relayId",
+        "tokenId": "node.assetQuantity.asset.tokenId",
+        "contractAddress": "node.assetQuantity.asset.assetContract.address",
+        "chain": "node.assetQuantity.asset.assetContract.chain",
+        "name": "node.assetQuantity.asset.name",
+        "collectionName": "node.assetQuantity.asset.collection.name",
+        "image": "node.assetQuantity.asset.displayImageUrl",
+        "price": "node.price.quantityInEth",
+        "currency": "node.price.asset.symbol",
+        "timestamp": "node.eventTimestamp"
+      }
+    }
+  }
+}
