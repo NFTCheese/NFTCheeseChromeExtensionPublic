@@ -138,11 +138,14 @@ export async function fetchAssetWithRankingV2(collectionAddress: string, tokenID
   });
   const rank: number | null = get(data, 'data.collection.tokens[0].rarityRank', null);
   const tokenCount: number | null = get(data, 'data.collection.totalSupply', null);
+  // added to fetch price of token 
+  const price: number | null = get(data, 'data.collection.tokens[0].price',null);
 
   return {
     iteratorID: tokenID,
     rank,
-    tokenCount
+    tokenCount,
+    price
   }
 }
 
