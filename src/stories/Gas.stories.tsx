@@ -21,6 +21,7 @@ const meta: Meta = {
   }
 
 }
+
 export default meta;
 
 const GasBoxTemplate: Story<GasBoxProps> = (args) => <GasBox {...args} />
