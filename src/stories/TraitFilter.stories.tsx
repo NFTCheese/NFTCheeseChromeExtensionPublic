@@ -6,7 +6,7 @@ import TraitFilter from '../component/TraitFilter';
 import GlobalStyles from '../component/GlobalStyles';
 
 const meta: Meta = {
-  title: 'TraitsFilter',
+  title: 'TraitFilterThrough',
   component: TraitFilter,
 };
 export default meta;
