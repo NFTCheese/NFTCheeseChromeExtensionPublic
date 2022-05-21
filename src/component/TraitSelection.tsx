@@ -121,7 +121,7 @@ export default function TraitSelection(props: ITraitSelectionProps) {
   }
 
   return (
-    <Card p={cardPadding} position='relative' width={props.width ?? 'auto'} height={height}>
+    <Card p={cardPadding} position='relative' width={props.width ?? 'auto'} height={height} overflow='hidden'>
       <Box ref={headerRef} position="relative">
         <Box position="absolute" zIndex={1} top={0} right={0} w={8} h={'full'} bgGradient={'linear(to-r, #f2f2f200, card-bg)'}>
         </Box>
@@ -161,7 +161,7 @@ export default function TraitSelection(props: ITraitSelectionProps) {
             ))}
           </Accordion>
         </Box>
-        <Wrap ref={footerRef} padding='3' spacing='3' boxShadow={'var(--chakra-colors-card-shadow) 0px -10px 15px -15px'} width='100%' position='absolute' bottom={0} left={0} justify='center'>
+        <Wrap ref={footerRef} padding='3' spacing='3' boxShadow={'var(--chakra-colors-card-shadow) 0px -15px 18px -15px'} position='absolute' bottom={0} left={-5} right={-5} justify='center'>
           <WrapItem>
             <Button onClick={handleCancel} leftIcon={<CloseIcon width={2} />} size={'sm'} p={5} variant='solid'>
               Cancel
