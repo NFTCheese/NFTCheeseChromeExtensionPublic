@@ -143,7 +143,7 @@ export default function TraitSelection(props: ITraitSelectionProps) {
                 {({ isExpanded }: { isExpanded: boolean }) => (
                   <>
                     <div>
-                      <AccordionButton>
+                      <AccordionButton paddingLeft={0}>
                         <Text flex='1' textAlign='left' fontWeight='bold' textTransform='uppercase'>{group} {getSelectedLength(group)}</Text>
                         {isExpanded ? (
                           <MinusIcon fontSize='12px' />
