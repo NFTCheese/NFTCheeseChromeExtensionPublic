@@ -64,12 +64,12 @@ export function TraitSearch({ traits, onSelect }: TTraitsSearchParams) {
             const bgColor = rarityColor[colorMode]
             return (
               <Checkbox style={{ width: '100%' }} color='text' borderColor='border-color' isChecked={trait.selected} onChange={(evt: React.FormEvent<HTMLInputElement>) => handleTraitSelect(evt, trait)}>
-                <Box textTransform='capitalize' width='100%'>
-                  <Box display='inline' marginRight={15}>{trait.value}</Box>
-                  {rarityType?.top !== Infinity && <Badge textTransform='lowercase' position='absolute' left='50%' color='white' bg={bgColor}>
+                <HStack textTransform='capitalize' width='100%'>
+                  <Text marginRight={15} width={'7rem'} textOverflow='ellipsis' whiteSpace={'nowrap'} overflow='hidden'>{trait.value}</Text>
+                  {rarityType?.top !== Infinity && <Badge textTransform='lowercase' color='white' bg={bgColor}>
                     {(rarityType?.top ?? 1)}% {(rarityType?.top ?? 1) <= 0.1 ? rariryLabel : ''}
                   </Badge>}
-                </Box>
+                </HStack>
               </Checkbox>
             )
           })}

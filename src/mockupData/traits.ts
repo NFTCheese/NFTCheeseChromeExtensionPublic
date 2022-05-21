@@ -16,7 +16,7 @@ const traits: TraitWithUniqueScore[] = [
   {
     id: 3,
     property: 'face',
-    value: 'clout goggles',
+    value: 'clout goggles long text',
     uniqueScore: 0.04,
   },
   {
