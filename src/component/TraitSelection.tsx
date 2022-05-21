@@ -1,6 +1,6 @@
 import { Box, Text, HStack, Stack, Wrap, WrapItem } from "@chakra-ui/layout";
 import React, { useEffect, useRef, useState } from "react";
-import { Accordion, AccordionButton, AccordionItem, AccordionPanel, Checkbox, Input, Tag, TagCloseButton, TagLabel, useToken, Badge, Button } from '@chakra-ui/react'
+import { Accordion, AccordionButton, AccordionItem, AccordionPanel, Checkbox, Input, Tag, TagCloseButton, TagLabel, useToken, Badge, Button, useColorMode, useColorModeValue } from '@chakra-ui/react'
 import { useSelector } from 'react-redux'
 import { deselectAllTraits, deselectTrait, toggleTraitSelection } from "../state/store"
 import { TraitWithUniqueScore } from "../types";
@@ -10,6 +10,7 @@ import { AddIcon, CheckIcon, CloseIcon, DeleteIcon, MinusIcon, SmallCloseIcon } 
 import { getTraitColors, TraitBoxWithDeleteOption } from "./TraitBox";
 import Card from "../ui/Card";
 import theme from "../theme";
+import { getRarityLabel, RARITY_TYPES } from "../utils/rarityUtils";
 
 
 export type ITraitSelectionProps = {
@@ -46,22 +47,25 @@ export function TraitSearch({ traits, onSelect }: TTraitsSearchParams) {
     onSelect(traits.filter(x => x.selected))
     dispatch(toggleTraitSelection(trait))
   }
-
+  
   return (
     <Box>
       <Box>
         <Stack spacing={2} marginBottom={5}>
           <Input color='text' borderColor='border-color' width='auto' onChange={handleTypeSearch} placeholder='Search...' />
         </Stack>
-
         <Stack spacing={2} direction='column' maxHeight={360} overflowY='scroll' overflowX='auto'>
           {filteredTraits.map(trait => {
-            const colors = getTraitColors(trait.uniqueScore)
+            const rariryLabel = getRarityLabel(trait.uniqueScore)
+            const rarityType = RARITY_TYPES.find(x => x.name === rariryLabel)
+            const bgColor = rarityType?.color!
             return (
               <Checkbox style={{ width: '100%' }} color='text' borderColor='border-color' isChecked={trait.selected} onChange={(evt: React.FormEvent<HTMLInputElement>) => handleTraitSelect(evt, trait)}>
                 <Box textTransform='capitalize' width='100%'>
                   <Box display='inline' marginRight={15}>{trait.value}</Box>
-                  <Badge position='absolute' left='50%' {...colors}>{Math.round(trait.uniqueScore * 100) / 100}%</Badge>
+                  {rarityType?.top !== Infinity && <Badge textTransform='lowercase' position='absolute' left='50%' color='white' bg={useColorModeValue(bgColor.light, bgColor.dark)}>
+                    {(rarityType?.top ?? 1) * 100}% {(rarityType?.top ?? 1) < 0.05 ? rariryLabel : ''}
+                  </Badge>}
                 </Box>
               </Checkbox>
             )
