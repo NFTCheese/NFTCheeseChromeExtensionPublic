@@ -12,6 +12,7 @@ import Card from "../ui/Card";
 import theme from "../theme";
 import { getRarityLabel, RARITY_TYPES } from "../utils/rarityUtils";
 
+const disabledOutlineStyle = { boxShadow: 'none' }
 
 export type ITraitSelectionProps = {
   width?: number,
@@ -51,19 +52,23 @@ export function TraitSearch({ traits, onSelect }: TTraitsSearchParams) {
   const { colorMode } = useColorMode()
   
   return (
-    <Box>
       <Box>
         <Stack spacing={2} marginBottom={5}>
-          <Input color='text' borderColor='border-color' width='auto' onChange={handleTypeSearch} placeholder='Search...' />
+          <Input _focus={disabledOutlineStyle} color='text' borderColor='border-color' background={useColorModeValue('', 'gray.900')} width='auto' onChange={handleTypeSearch} placeholder='Search...' />
         </Stack>
-        <Stack spacing={2} direction='column' maxHeight={360} overflowY='scroll' overflowX='auto'>
+        <Stack spacing={2} direction='column' maxHeight={360} overflowY='scroll'>
           {filteredTraits.map(trait => {
             const rariryLabel = getRarityLabel(trait.uniqueScore)
             const rarityType = RARITY_TYPES.find(x => x.name === rariryLabel)
             const rarityColor = rarityType?.color!
             const bgColor = rarityColor[colorMode]
             return (
-              <Checkbox style={{ width: '100%' }} color='text' borderColor='border-color' isChecked={trait.selected} onChange={(evt: React.FormEvent<HTMLInputElement>) => handleTraitSelect(evt, trait)}>
+              <Checkbox
+                width={'100%'} 
+                color={'text'} 
+                borderColor={'border-color'}
+                isChecked={trait.selected} 
+                onChange={(evt: React.FormEvent<HTMLInputElement>) => handleTraitSelect(evt, trait)}>
                 <HStack textTransform='capitalize' width='100%'>
                   <Text marginRight={15} width={'7rem'} textOverflow='ellipsis' whiteSpace={'nowrap'} overflow='hidden'>{trait.value}</Text>
                   {rarityType?.top !== Infinity && <Badge textTransform='lowercase' color='white' bg={bgColor}>
@@ -75,7 +80,6 @@ export function TraitSearch({ traits, onSelect }: TTraitsSearchParams) {
           })}
         </Stack>
       </Box>
-    </Box>
   )
 }
 
@@ -139,12 +143,12 @@ export default function TraitSelection(props: ITraitSelectionProps) {
           <Text flex='1' marginBottom='3' fontSize='lg' textAlign='left' color='text'>Filter traits ({Object.keys(groupedTraits).length})</Text>
           <Accordion allowToggle reduceMotion>
             {Object.keys(groupedTraits).map((group, index) => (
-              <AccordionItem isFocusable={false} color='text' borderColor='border-color'>
+              <AccordionItem color='text' borderColor='border-color'>
                 {({ isExpanded }: { isExpanded: boolean }) => (
                   <>
                     <div>
-                      <AccordionButton paddingLeft={0}>
-                        <Text flex='1' textAlign='left' fontWeight='bold' textTransform='uppercase'>{group} {getSelectedLength(group)}</Text>
+                      <AccordionButton _focus={disabledOutlineStyle} paddingLeft={0}>
+                        <Text flex='1' textAlign='left' fontWeight='bold' color='accordion-label' textTransform='uppercase'>{group} {getSelectedLength(group)}</Text>
                         {isExpanded ? (
                           <MinusIcon fontSize='12px' />
                         ) : (
@@ -152,7 +156,7 @@ export default function TraitSelection(props: ITraitSelectionProps) {
                         )}
                       </AccordionButton>
                     </div>
-                    <AccordionPanel>
+                    <AccordionPanel paddingLeft={0} paddingTop={0}>
                       <TraitSearch traits={groupedTraits[group]} onSelect={props.onSelect} />
                     </AccordionPanel>
                   </>

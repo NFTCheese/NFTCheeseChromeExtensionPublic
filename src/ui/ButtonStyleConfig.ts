@@ -5,7 +5,10 @@ import { mode } from '@chakra-ui/theme-tools';
 // a single part component: ComponentSingleStyleConfig
 const ButtonStyleConfig: ComponentStyleConfig = {
   baseStyle: {
-    borderRadius: 8
+    borderRadius: 8,
+    _focus: {
+      boxShadow: 'none!important'
+    }
   },
   variants: {
     solid: (props) => {

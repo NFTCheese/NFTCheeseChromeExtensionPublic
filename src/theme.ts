@@ -20,7 +20,7 @@ const getOpenSeaTheme = () => {
 
   // TEMPORARY DISABLE LIGHT MODE
   const { theme } = parseCookies()
-  console.log({theme});
+  console.log({ theme });
   return theme?.theme || 'light'
 }
 
@@ -76,10 +76,16 @@ const theme = extendTheme({
   },
   semanticTokens: {
     colors: {
-      text: {
+      'text': {
         default: 'black',
         _dark: 'gray.300'
       },
+
+      'accordion-label': {
+        default: 'black',
+        _dark: 'gray.100@'
+      },
+
       'nftcheese-bg': {
         default: 'nftcheese-bg.light',
         _dark: 'nftcheese-bg.dark',

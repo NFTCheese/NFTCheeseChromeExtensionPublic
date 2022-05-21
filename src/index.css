@@ -1,6 +1,7 @@
 /* @tailwind base;
 @tailwind components;
 @tailwind utilities; */
+
 .btn-gradient-2 {
   background: 
     linear-gradient(var(--color-bg), var(--color-bg)) padding-box,
