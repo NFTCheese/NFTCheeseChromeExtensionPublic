@@ -59,6 +59,7 @@ const TraitFilter = ({ allTraits }: { allTraits: AllTraitsProp }) => {
 
 
 
+
   // This contains every tag the user chooses
   const [allTraitTag, setAllTraitTag] = useState<AllTraitTags[]>([])
 
@@ -68,7 +69,11 @@ const TraitFilter = ({ allTraits }: { allTraits: AllTraitsProp }) => {
   // Records how many tags users have chosen in each traits type
   const [individualChosenTrait, setIndividualChosenTrait] = useState<any>([])
 
-  
+
+  useEffect(() => {
+    console.log(individualChosenTrait, 'individualChosenTrait')
+  }, [individualChosenTrait])
+
   useEffect(() => {
 
     const filteredArray = allTraits.map((trait) => ({ traitTitle: trait.traitTitle, searchTerm: '' }))
@@ -79,12 +84,14 @@ const TraitFilter = ({ allTraits }: { allTraits: AllTraitsProp }) => {
     setIndividualChosenTrait(newArray)
   }, [allTraits])
 
+  const handleFilterArray = (e, traitTitle) => {
+    console.log(e.target.name)
 
+  }
   // setIndividualChosenTrait(allTraits.map(a => ({ traitType: a.title, numberOfTraitChildrenCheck: 0 })))
 
   const getNumberOfTraitChecked = (text: string) => {
     if (individualChosenTrait.length > 0) {
-
       const { numberOfTraitChildrenCheck } = individualChosenTrait.find((o: any) => o.traitType == text)
       return numberOfTraitChildrenCheck;
     }
@@ -104,6 +111,7 @@ const TraitFilter = ({ allTraits }: { allTraits: AllTraitsProp }) => {
   const [checkedTraitCount, setCheckedTraitCount] = useState<number>(0)
 
   const [trackCheckedTraits, setTrackCheckedTraits] = useState<TrackNumberOfTraitsClicked[]>([])
+
   // This contains every tag the user chooses
 
 
@@ -121,6 +129,7 @@ const TraitFilter = ({ allTraits }: { allTraits: AllTraitsProp }) => {
     w={{
       base: '90%'
       , md: '50%'
+      , lg: '40%'
     }} pl='23px' pt='25px'
     mx='auto'
     mb='12'
@@ -170,7 +179,7 @@ const TraitFilter = ({ allTraits }: { allTraits: AllTraitsProp }) => {
       {/* All Traits Tag */}
       {allTraitTag.map(({ tagId, traitTitle, traitType }: AllTraitTags) => <React.Fragment key={tagId}>
         < HStack bg='#383838'
-
+          key={tagId}
           borderRadius='6px !important'
           w='fit-content'
           px='6px'
@@ -248,7 +257,11 @@ const TraitFilter = ({ allTraits }: { allTraits: AllTraitsProp }) => {
                 <h2>
                   <AccordionButton w='100%' px='0px !important' py='14px' >
                     <Text flex='1' textAlign='left' color='rgba(255, 255, 255, 0.88)' fontSize='16px' fontWeight={700} textTransform='uppercase' w='100%'>
-                      {`${traitTitle} ${getNumberOfTraitChecked(traitTitle)}`}
+                      {traitTitle}
+                      <Text as='span' pl='1' color='inherit'>
+
+                        {getNumberOfTraitChecked(traitTitle) <= 0 ? '' : `(${getNumberOfTraitChecked(traitTitle)})`}
+                      </Text>
                     </Text>
                     {isExpanded ? (
                       <MinusIcon w='12.67px' h='12.67px' color={'rgba(255, 255, 255, 0.88)'} />
@@ -266,8 +279,9 @@ const TraitFilter = ({ allTraits }: { allTraits: AllTraitsProp }) => {
                     color='rgba(255, 255, 255, 0.88)'
                     _focusWithin={{ outline: 'none' }}
                     name={`${traitTitle}`}
-                    onChange={() => {
-
+                    onChange={(e: any) => {
+                      // Filter's array
+                      handleFilterArray(e, traitTitle)
                     }}
 
                   />
@@ -293,7 +307,6 @@ const TraitFilter = ({ allTraits }: { allTraits: AllTraitsProp }) => {
                               const numberOfTraitPropCheckedForThisProperty = getNumberOfTraitPropCheckedForThisProperty?.numberOfTraitPropChecked as number
                               console.log(getNumberOfTraitPropCheckedForThisProperty, 'getNumberOfTraitPropCheckedForThisProperty')
 
-                              const { numberOfTraitChildrenCheck } = individualChosenTrait.find((o: any) => o.traitType == traitTitle)
 
                               if (isChecked) {
                                 setAllTraitTag([...allTraitTag, { traitTitle: prop.traitTitle, traitType: prop.traitType, tagId }])
@@ -302,20 +315,45 @@ const TraitFilter = ({ allTraits }: { allTraits: AllTraitsProp }) => {
 
                                 // Counts Every Traits that is checked in all Traits category
                                 setTrackCheckedTraits([...trackCheckedTraits, { traitTitle, numberOfTraitPropChecked: numberOfTraitPropCheckedForThisProperty ? numberOfTraitPropCheckedForThisProperty + 1 : 1 }])
-                                setIndividualChosenTrait([...individualChosenTrait, { traitType: traitTitle, numberOfTraitChildrenCheck: numberOfTraitChildrenCheck + 1 }])
 
+                                // setIndividualChosenTrait(oldCount =>[])
+                                const mapArray = individualChosenTrait.map(i => {
+                                  if (i.traitType == traitTitle) {
+                                    return {
+                                      ...i,
+                                      numberOfTraitChildrenCheck: i.numberOfTraitChildrenCheck + 1
+                                    }
+                                  }
+                                  else {
+                                    return i
+                                  }
+                                })
+                                setIndividualChosenTrait(mapArray)
+                                getNumberOfTraitChecked(traitTitle)
                               }
 
 
 
                               else {
-                                setIndividualChosenTrait([...individualChosenTrait, { traitType: traitTitle, numberOfTraitChildrenCheck: numberOfTraitChildrenCheck <= 0 ? 0 : -1 }])
+                                const mapArray = individualChosenTrait.map((i: any) => {
+                                  if (i.traitType == traitTitle) {
+                                    return {
+                                      ...i,
+                                      numberOfTraitChildrenCheck: i.numberOfTraitChildrenCheck <= 0 ? 0 : i.numberOfTraitChildrenCheck - 1
+                                    }
+                                  }
+                                  else {
+                                    return i
+                                  }
+                                })
+                                setIndividualChosenTrait(mapArray)
                                 // Counts how checkbox have been checked
                                 setCheckedTraitCount(checkedTraitCount <= 0 ? 0 : checkedTraitCount - 1)
 
                                 // setTrackCheckedTraits([...trackCheckedTraits, { traitTitle, numberOfTraitPropChecked: numberOfTraitPropCheckedForThisProperty <= 0 ? 0 : numberOfTraitPropCheckedForThisProperty - 1 }])
 
                                 setAllTraitTag(allTraitTag.filter((traitTag: AllTraitTags) => traitTag.tagId != tagId))
+                                getNumberOfTraitChecked(traitTitle)
                               }
                             }}
                           />
