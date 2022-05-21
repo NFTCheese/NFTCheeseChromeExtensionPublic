@@ -59,12 +59,13 @@ export function TraitSearch({ traits, onSelect }: TTraitsSearchParams) {
             const rariryLabel = getRarityLabel(trait.uniqueScore)
             const rarityType = RARITY_TYPES.find(x => x.name === rariryLabel)
             const bgColor = rarityType?.color!
+            // const color = useColorModeValue(bgColor.light, bgColor.dark)
             return (
               <Checkbox style={{ width: '100%' }} color='text' borderColor='border-color' isChecked={trait.selected} onChange={(evt: React.FormEvent<HTMLInputElement>) => handleTraitSelect(evt, trait)}>
                 <Box textTransform='capitalize' width='100%'>
                   <Box display='inline' marginRight={15}>{trait.value}</Box>
-                  {rarityType?.top !== Infinity && <Badge textTransform='lowercase' position='absolute' left='50%' color='white' bg={useColorModeValue(bgColor.light, bgColor.dark)}>
-                    {(rarityType?.top ?? 1) * 100}% {(rarityType?.top ?? 1) < 0.05 ? rariryLabel : ''}
+                  {rarityType?.top !== Infinity && <Badge textTransform='lowercase' position='absolute' left='50%' color='white'>
+                    {(rarityType?.top ?? 1)}% {(rarityType?.top ?? 1) < 0.05 ? rariryLabel : ''}
                   </Badge>}
                 </Box>
               </Checkbox>
