@@ -1,4 +1,5 @@
 import { useToolbarActions } from 'storybook-addon-toolbar-actions'
+import store from '../src/state/store'
 import {
   ChakraProvider,
   ColorModeScript,
@@ -8,6 +9,7 @@ import {
 } from '@chakra-ui/react'
 import { SunIcon } from '@chakra-ui/icons'
 import theme from '../src/theme'
+import { Provider } from 'react-redux'
 
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
@@ -40,11 +42,13 @@ const Container = ({ children }) => {
 
 export const decorators = [
   (Story) => (
-    <ChakraProvider theme={theme}>
-      <Container>
-        <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-        <Story />
-      </Container>
-    </ChakraProvider>
+    <Provider store={store}>
+      <ChakraProvider theme={theme}>
+        <Container>
+          <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+          <Story />
+        </Container>
+      </ChakraProvider>
+    </Provider>
   ),
 ]

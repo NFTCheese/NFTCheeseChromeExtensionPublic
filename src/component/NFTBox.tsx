@@ -7,7 +7,6 @@ import {
 import { Center, HStack } from '@chakra-ui/layout';
 import { Spinner } from '@chakra-ui/react'
 
-import { TraitWithUniqueScore } from './TraitSelection';
 import { btnClassPicker, classNamePicker } from './assets/colorPicker';
 import { TraitRarityTag } from './TraitRarityTag';
 import EthDarkIcon from './icons/EthDarkIcon';
@@ -18,6 +17,7 @@ import BuyNowButton from './BuyNowButton';
 import { assetsFromOpenseaLoaderGenerator, OpenseaAsset } from '../utils/api';
 import { useState } from 'react';
 import ScopedCSSPortal from './ScopedCSSPortal'
+import { TraitWithUniqueScore } from '../types';
 // import { fetchAssetPrice, useRequest } from '../utils/api';
 // import { weiToEth } from '../utils/ethereum';
 

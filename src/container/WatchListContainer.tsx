@@ -3,10 +3,10 @@ import { useEffect, useRef, useState } from 'react'
 import { fetchAssetsCollection, fetchTraitsCollection, fetchWatchList } from '../utils/api'
 import { NFT } from '../component/NFTBox';
 import { useUser } from '../utils/user';
-import { TraitWithUniqueScore } from '../component/TraitSelection';
 import { WatchListAccordion } from '../component/WatchListAccordion';
 import ListingNotifier from '../component/ListingNotifier';
 import { sortBy } from 'lodash';
+import { TraitWithUniqueScore } from '../types';
 
 export type Payload = {
   traits: TraitWithUniqueScore[]

@@ -1,7 +1,6 @@
 import DataLoader from 'dataloader';
 import { Selectors } from "./selector"
 import lastKnownInjectionSelectors from '../assets/lastKnownInjectionSelectors.json'
-import { TraitWithUniqueScore } from "../component/TraitSelection"
 import { NFT } from '../component/NFTBox';
 import { weiToEth } from "./ethereum";
 import { RateLimit, Sema } from "async-sema";
@@ -10,6 +9,7 @@ import axios, { AxiosRequestConfig } from "axios";
 import { Filter } from '../container/WatchListContainer';
 import { GasBoxProps } from '../component/GasBox';
 import { useEffect, useState } from 'react';
+import { TraitWithUniqueScore } from '../types';
 
 const REMOTE_ASSET_BASE = 'https://nftcheese.net';
 export const SERVER_DOMAIN = 'https://nftcheese.net';

@@ -1,6 +1,6 @@
 import { get } from "lodash";
 import { NFT } from "../component/NFTBox";
-import { TraitWithUniqueScore } from "../component/TraitSelection";
+import { TraitWithUniqueScore } from "../types";
 import { cheeseApiRequest, SERVER_DOMAIN } from "./api";
 import { GetCollectionItemsQuery } from "./queries";
 

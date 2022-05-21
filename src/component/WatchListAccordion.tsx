@@ -6,7 +6,7 @@ import { Filter } from '../container/WatchListContainer';
 import { deleteWatchList } from '../utils/api';
 import EthIcon from './icons/EthIcon';
 import { NFTBox } from './NFTBox';
-import { TraitBox } from './TraitSelection';
+import { TraitBox } from "./TraitBox";
 import { DeleteIcon } from '@chakra-ui/icons'
 
 type WatchListAccordionProps = {

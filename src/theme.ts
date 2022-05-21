@@ -88,6 +88,10 @@ const theme = extendTheme({
         default: 'gray.50',
         _dark: '#212121'
       },
+      'card-shadow': {
+        default: 'gray.500',
+        _dark: '#000000'
+      },
       'nft-bg': {
         default: 'white',
         _dark: '#212121'
