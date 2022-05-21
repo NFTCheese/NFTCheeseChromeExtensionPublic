@@ -1,26 +1,102 @@
-import React from 'react';
-import { Center } from '@chakra-ui/react';
 import { Meta, Story } from '@storybook/react';
-import divineAnarchyAvailableNFTs from '../mockupData/divineAnarchyAvailableNFTs';
+import React from 'react';
+// import divineTraitFilter from '../mockupData/divineTraitFilter';
 import TraitFilter from '../component/TraitFilter';
-import GlobalStyles from '../component/GlobalStyles';
+
+
+ const allTraits = [
+  {
+    traitTitle: 'Type',
+    traitProperties: [
+      { traitType: 'Human', rarenessPercentage: 0.1, traitTitle: 'Type' },
+      { traitType: 'Blue', rarenessPercentage: 5, traitTitle: 'Type' },
+      { traitType: 'Human', rarenessPercentage: 0.1, traitTitle: 'Type' },
+      { traitType: 'Blue', rarenessPercentage: 5, traitTitle: 'Type' },
+      { traitType: 'Human', rarenessPercentage: 0.1, traitTitle: 'Type' },
+      { traitType: 'Blue', rarenessPercentage: 5, traitTitle: 'Type' },
+      { traitType: 'Human', rarenessPercentage: 0.1, traitTitle: 'Type' },
+      { traitType: 'Blue', rarenessPercentage: 5, traitTitle: 'Type' },
+      { traitType: 'Human', rarenessPercentage: 0.1, traitTitle: 'Type' },
+      { traitType: 'Blue', rarenessPercentage: 5, traitTitle: 'Type' },
+      { traitType: 'Human', rarenessPercentage: 0.1, traitTitle: 'Type' },
+      { traitType: 'Blue', rarenessPercentage: 5, traitTitle: 'Type' },
+      { traitType: 'Human', rarenessPercentage: 0.1, traitTitle: 'Type' },
+      { traitType: 'Blue', rarenessPercentage: 5, traitTitle: 'Type' },
+      { traitType: 'Human', rarenessPercentage: 0.1, traitTitle: 'Type' },
+      { traitType: 'Blue', rarenessPercentage: 5, traitTitle: 'Type' },
+      { traitType: 'Human', rarenessPercentage: 0.1, traitTitle: 'Type' },
+      { traitType: 'Blue', rarenessPercentage: 5, traitTitle: 'Type' },
+      { traitType: 'Human', rarenessPercentage: 0.1, traitTitle: 'Type' },
+      { traitType: 'Blue', rarenessPercentage: 5, traitTitle: 'Type' },
+      { traitType: 'Human', rarenessPercentage: 0.1, traitTitle: 'Type' },
+      { traitType: 'Blue', rarenessPercentage: 5, traitTitle: 'Type' },
+      { traitType: 'Human', rarenessPercentage: 0.1, traitTitle: 'Type' },
+      { traitType: 'Blue', rarenessPercentage: 5, traitTitle: 'Type' },
+      { traitType: 'Human', rarenessPercentage: 0.1, traitTitle: 'Type' },
+      { traitType: 'Blue', rarenessPercentage: 5, traitTitle: 'Type' },
+      { traitType: 'Red', rarenessPercentage: 15, traitTitle: 'Type' }]
+  },
+
+  {
+    traitTitle: 'Special',
+    traitProperties: [
+      { traitType: 'Human', rarenessPercentage: 0.1, traitTitle: 'Special' },
+      { traitType: 'Blue', rarenessPercentage: 0.1, traitTitle: 'Special' },
+      { traitType: 'Red', rarenessPercentage: 0.1, traitTitle: 'Special' }]
+  },
+
+
+  {
+    traitTitle: 'Clothing',
+    traitProperties: [
+      { traitType: 'Human', rarenessPercentage: 0.1, traitTitle: 'Clothing' },
+      { traitType: 'Blue', rarenessPercentage: 0.1, traitTitle: 'Clothing' },
+      { traitType: 'Red', rarenessPercentage: 0.1, traitTitle: 'Clothing' }]
+  },
+  {
+    traitTitle: 'Offhand',
+    traitProperties: [
+      { traitType: 'Human', rarenessPercentage: 0.1, traitTitle: 'Offhand' },
+      { traitType: 'Blue', rarenessPercentage: 0.1, traitTitle: 'Offhand' },
+      { traitType: 'Red', rarenessPercentage: 0.1, traitTitle: 'Offhand' }]
+  },
+  {
+    traitTitle: 'Hair',
+    traitProperties: [
+      { traitType: 'Human', rarenessPercentage: 0.1, traitTitle: 'Hair' },
+      { traitType: 'Blue', rarenessPercentage: 0.1, traitTitle: 'Hair' },
+      { traitType: 'Red', rarenessPercentage: 0.1, traitTitle: 'Hair' }]
+  },
+  {
+    traitTitle: 'HeadGear',
+    traitProperties: [
+      { traitType: 'Human', rarenessPercentage: 0.1, traitTitle: 'HeadGear' },
+      { traitType: 'Blue', rarenessPercentage: 0.1, traitTitle: 'HeadGear' },
+      { traitType: 'Red', rarenessPercentage: 0.1, traitTitle: 'HeadGear' }]
+  },
+
+
+]
+
+
 
 const meta: Meta = {
-  title: 'TraitFilterThrough',
+  title: 'TraitFilter',
   component: TraitFilter,
 };
+
 export default meta;
 
-const traits = divineAnarchyAvailableNFTs;
+// const traitFilter = divineTraitFilter;
 
 const Template: Story<React.ComponentProps<typeof TraitFilter>> = (args) => (
-  <Center>
+  <>
     <TraitFilter {...args} />
-    <GlobalStyles />
-  </Center>
+  </>
 );
 
 export const Default = Template.bind({});
+
 Default.args = {
-  NFTs: traits,
+  allTraits,
 };

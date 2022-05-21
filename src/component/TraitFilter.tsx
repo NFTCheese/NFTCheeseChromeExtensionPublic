@@ -8,6 +8,8 @@ import React, { useEffect, useState } from "react";
 
 
 
+// All Traits Properties
+
 type AllTraitsProp = {
   traitTitle: string,
   traitProperties: {
@@ -15,50 +17,36 @@ type AllTraitsProp = {
   }[]
 }[]
 
-// For each tag the user selects
+// Tracks number of individual traits property were checked by user
+type TrackNumberOfTraitsClicked = {
+  traitTitle: string
+  numberOfTraitPropChecked: number
+}
+
+// For each checkbox the user clicks
 type AllTraitTags = {
   traitTitle: string,
   traitType: string
-  tagId: string
+  tagId?: string
 }
 
 
-const TraitTag = ({ tag }: { tag: AllTraitTags }) => {
-  const { traitTitle, traitType } = tag
-  return <HStack bg='#383838'
-    borderRadius='6px !important'
-    w='fit-content'
-    p='6px'
-    whiteSpace='nowrap'
-    textTransform='uppercase'
-    color='rgba(255, 255, 255, 0.52) !important'
 
-  >
-    <Text as='span'
-      fontWeight='400'
-      fontSize={'14px'}
-      color='rgba(255, 255, 255, 0.52) !important'
-    >
-      {traitTitle}:{traitType}
-    </Text>
-    <CloseButton />
-  </HStack>
-}
-
-
+//  Confirm Button Icon
 const checkSvgIcon = () => {
   return <>
     <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M3.00025 8.00057C2.73625 8.00057 2.48125 7.89657 2.29325 7.70757L0.29325 5.70757C-0.09775 5.31657 -0.09775 4.68457 0.29325 4.29357C0.68425 3.90257 1.31625 3.90257 1.70725 4.29357L2.84525 5.43157L6.16825 0.445572C6.47425 -0.0144275 7.09425 -0.138428 7.55525 0.168572C8.01425 0.475572 8.13825 1.09557 7.83225 1.55557L3.83225 7.55557C3.66625 7.80457 3.39625 7.96657 3.09925 7.99557C3.06525 7.99857 3.03325 8.00057 3.00025 8.00057Z" fill="white" fill-opacity="0.88" />
+      <path fillRule="evenodd" clipRule="evenodd" d="M3.00025 8.00057C2.73625 8.00057 2.48125 7.89657 2.29325 7.70757L0.29325 5.70757C-0.09775 5.31657 -0.09775 4.68457 0.29325 4.29357C0.68425 3.90257 1.31625 3.90257 1.70725 4.29357L2.84525 5.43157L6.16825 0.445572C6.47425 -0.0144275 7.09425 -0.138428 7.55525 0.168572C8.01425 0.475572 8.13825 1.09557 7.83225 1.55557L3.83225 7.55557C3.66625 7.80457 3.39625 7.96657 3.09925 7.99557C3.06525 7.99857 3.03325 8.00057 3.00025 8.00057Z" fill="white" fillOpacity="0.88" />
     </svg>
 
   </>
 }
+// Close Button Icon
 
 const closeSvgIcon = () => {
   return <>
     <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M5.41413 4.00001L7.70713 1.70701C8.09813 1.31601 8.09813 0.684006 7.70713 0.293006C7.31613 -0.0979941 6.68413 -0.0979941 6.29313 0.293006L4.00013 2.58601L1.70713 0.293006C1.31613 -0.0979941 0.684128 -0.0979941 0.293128 0.293006C-0.0978721 0.684006 -0.0978721 1.31601 0.293128 1.70701L2.58613 4.00001L0.293128 6.29301C-0.0978721 6.68401 -0.0978721 7.31601 0.293128 7.70701C0.488128 7.90201 0.744128 8.00001 1.00013 8.00001C1.25613 8.00001 1.51213 7.90201 1.70713 7.70701L4.00013 5.41401L6.29313 7.70701C6.48813 7.90201 6.74413 8.00001 7.00013 8.00001C7.25613 8.00001 7.51213 7.90201 7.70713 7.70701C8.09813 7.31601 8.09813 6.68401 7.70713 6.29301L5.41413 4.00001Z" fill="white" fill-opacity="0.88" />
+      <path fillRule="evenodd" clipRule="evenodd" d="M5.41413 4.00001L7.70713 1.70701C8.09813 1.31601 8.09813 0.684006 7.70713 0.293006C7.31613 -0.0979941 6.68413 -0.0979941 6.29313 0.293006L4.00013 2.58601L1.70713 0.293006C1.31613 -0.0979941 0.684128 -0.0979941 0.293128 0.293006C-0.0978721 0.684006 -0.0978721 1.31601 0.293128 1.70701L2.58613 4.00001L0.293128 6.29301C-0.0978721 6.68401 -0.0978721 7.31601 0.293128 7.70701C0.488128 7.90201 0.744128 8.00001 1.00013 8.00001C1.25613 8.00001 1.51213 7.90201 1.70713 7.70701L4.00013 5.41401L6.29313 7.70701C6.48813 7.90201 6.74413 8.00001 7.00013 8.00001C7.25613 8.00001 7.51213 7.90201 7.70713 7.70701C8.09813 7.31601 8.09813 6.68401 7.70713 6.29301L5.41413 4.00001Z" fill="white" fillOpacity="0.88" />
     </svg>
 
 
@@ -66,72 +54,67 @@ const closeSvgIcon = () => {
 }
 
 
-const TraitFilter = ({ NFTs }: { NFTs: any }) => {
-
-  // const allTraitTags: TraitTag = [
-
-  // ]
+const TraitFilter = ({ allTraits }: { allTraits: AllTraitsProp }) => {
 
 
-  const allTraits: AllTraitsProp = [
-    {
-      traitTitle: 'Type',
-      traitProperties: [
-        { traitType: 'Human', rarenessPercentage: 0.1, traitTitle: 'Type' },
-        { traitType: 'Blue', rarenessPercentage: 5, traitTitle: 'Type' },
-        { traitType: 'Red', rarenessPercentage: 15, traitTitle: 'Type' }]
-    },
-
-    {
-      traitTitle: 'Special',
-      traitProperties: [
-        { traitType: 'Human', rarenessPercentage: 0.1, traitTitle: 'Special' },
-        { traitType: 'Blue', rarenessPercentage: 0.1, traitTitle: 'Special' },
-        { traitType: 'Red', rarenessPercentage: 0.1, traitTitle: 'Special' }]
-    },
 
 
-    {
-      traitTitle: 'Clothing',
-      traitProperties: [
-        { traitType: 'Human', rarenessPercentage: 0.1, traitTitle: 'Clothing' },
-        { traitType: 'Blue', rarenessPercentage: 0.1, traitTitle: 'Clothing' },
-        { traitType: 'Red', rarenessPercentage: 0.1, traitTitle: 'Clothing' }]
-    },
-    {
-      traitTitle: 'Offhand',
-      traitProperties: [
-        { traitType: 'Human', rarenessPercentage: 0.1, traitTitle: 'Offhand' },
-        { traitType: 'Blue', rarenessPercentage: 0.1, traitTitle: 'Offhand' },
-        { traitType: 'Red', rarenessPercentage: 0.1, traitTitle: 'Offhand' }]
-    },
-    {
-      traitTitle: 'Hair',
-      traitProperties: [
-        { traitType: 'Human', rarenessPercentage: 0.1, traitTitle: 'Hair' },
-        { traitType: 'Blue', rarenessPercentage: 0.1, traitTitle: 'Hair' },
-        { traitType: 'Red', rarenessPercentage: 0.1, traitTitle: 'Hair' }]
-    },
-    {
-      traitTitle: 'HeadGear',
-      traitProperties: [
-        { traitType: 'Human', rarenessPercentage: 0.1, traitTitle: 'HeadGear' },
-        { traitType: 'Blue', rarenessPercentage: 0.1, traitTitle: 'HeadGear' },
-        { traitType: 'Red', rarenessPercentage: 0.1, traitTitle: 'HeadGear' }]
-    },
-
-
-  ]
-
-  // const [allTraitList, setAllTraits] = useState<AllTraitsProp>(allTraits)
+  // This contains every tag the user chooses
   const [allTraitTag, setAllTraitTag] = useState<AllTraitTags[]>([])
 
+  // This stores content that users search for and filters the array
+  const [filterTags, setFilterTags] = useState<any>()
+
+  // Records how many tags users have chosen in each traits type
+  const [individualChosenTrait, setIndividualChosenTrait] = useState<any>([])
+
+  
   useEffect(() => {
-    console.log(allTraitTag)
-  }, [allTraitTag])
+
+    const filteredArray = allTraits.map((trait) => ({ traitTitle: trait.traitTitle, searchTerm: '' }))
+
+    const newArray = allTraits.map(a => ({ traitType: a.traitTitle, numberOfTraitChildrenCheck: 0 }))
+
+    setFilterTags(filteredArray)
+    setIndividualChosenTrait(newArray)
+  }, [allTraits])
 
 
-  console.log(NFTs)
+  // setIndividualChosenTrait(allTraits.map(a => ({ traitType: a.title, numberOfTraitChildrenCheck: 0 })))
+
+  const getNumberOfTraitChecked = (text: string) => {
+    if (individualChosenTrait.length > 0) {
+
+      const { numberOfTraitChildrenCheck } = individualChosenTrait.find((o: any) => o.traitType == text)
+      return numberOfTraitChildrenCheck;
+    }
+    return 0
+    // return count[0].numberOfTraitChildrenCheck
+
+  }
+
+
+
+
+
+
+
+  // Counts every checkbox the user clicked
+
+  const [checkedTraitCount, setCheckedTraitCount] = useState<number>(0)
+
+  const [trackCheckedTraits, setTrackCheckedTraits] = useState<TrackNumberOfTraitsClicked[]>([])
+  // This contains every tag the user chooses
+
+
+
+  // This make sure a check box is unchecked when it's corrensponding tag was closed by a user
+  const unCheckCheckBoxIfTagIsRemoved = (prop: any, index: number) => {
+    const { traitTitle, traitType } = prop
+    const tagId = `${traitTitle}-${traitType}-${index}`
+    const isTagUnchecked = allTraitTag.some(tag => tag.tagId === tagId);
+    return isTagUnchecked
+  }
 
   return <VStack as='section' bg='#292929'
     position='relative'
@@ -139,6 +122,7 @@ const TraitFilter = ({ NFTs }: { NFTs: any }) => {
       base: '90%'
       , md: '50%'
     }} pl='23px' pt='25px'
+    mx='auto'
     mb='12'
     mt='24px'
 
@@ -170,9 +154,10 @@ const TraitFilter = ({ NFTs }: { NFTs: any }) => {
     pb='70px'
   >
 
+    {/* Title */}
     <Text
       className="nftcheese__title"
-    >Selected traits (7)</Text>
+    >Selected traits ( {checkedTraitCount} )</Text>
 
 
     {/* All Tags */}
@@ -181,32 +166,89 @@ const TraitFilter = ({ NFTs }: { NFTs: any }) => {
       // bg='red'
       minH={'70px'}
     >
-      {allTraitTag.map((traitTag: AllTraitTags) => <React.Fragment key={traitTag.tagId}>
-        <TraitTag tag={traitTag} />
+
+      {/* All Traits Tag */}
+      {allTraitTag.map(({ tagId, traitTitle, traitType }: AllTraitTags) => <React.Fragment key={tagId}>
+        < HStack bg='#383838'
+
+          borderRadius='6px !important'
+          w='fit-content'
+          px='6px'
+          whiteSpace='nowrap'
+          spacing={0}
+          textTransform='uppercase'
+          color='rgba(255, 255, 255, 0.52) !important'
+          transition='0.15s all ease-in'
+          _hover={{ bg: 'rgba(224, 175, 0, 0.73)' }}
+          onClick={() => {
+            // Search for this tag's id from the  allTraitTag's   tags array then delete it.
+            const tagFilter = allTraitTag.filter((traitTag: AllTraitTags) => traitTag.tagId != tagId)
+            // Update the number of checked tags remaining
+            setCheckedTraitCount(checkedTraitCount <= 0 ? 0 : checkedTraitCount - 1)
+            setAllTraitTag(tagFilter)
+            // console.log(tagFilter, tagId)
+          }}
+
+          cursor='pointer'
+        >
+          <Text as='span'
+            fontWeight='400'
+            fontSize={'14px'}
+            color='rgba(255, 255, 255, 0.52) !important'
+          >
+            {traitTitle}: {traitType}
+          </Text>
+
+          {/* This filters the tags when the closebutton icon is clicked on the tag */}
+          <CloseButton fontSize={'8px'} px='2' />
+        </HStack>
       </React.Fragment>
 
       )}
+
+
     </HStack>
     {/* All Tags */}
 
 
     <Text
-      className="nftcheese__title">Filter traits (7)</Text>
-
-
+      className="nftcheese__title">Filter traits ( {checkedTraitCount} )</Text>
     {/* Accordion */}
-    <Accordion allowToggle w='100%' pr='23px'>
+    <Accordion allowToggle w='100%' pr='23px'
+    >
       {allTraits.map(traits => {
         const { traitProperties, traitTitle } = traits
 
         return <>
-          <AccordionItem>
-            {({ isExpanded }) => (
+
+          <AccordionItem
+            key={traitTitle}
+            sx={{
+              '.nftcheese___accordion--panel': {
+                '&::-webkit-scrollbar': {
+                  width: '5px',
+                  height: '100%',
+                },
+                '&::-webkit-scrollbar-track': {
+                  borderRadius: '10px',
+                  bg: '#424242'
+                }
+                ,
+                '&::-webkit-scrollbar-thumb': {
+                  width: '5px',
+                  'borderRadius': "10px",
+                  backgroundColor: "#C4C4C4"
+                }
+              }
+
+            }}
+          >
+            {({ isExpanded }: any) => (
               <>
-                <h2 >
-                  <AccordionButton w='100%' px='0px !important' py='14px'>
+                <h2>
+                  <AccordionButton w='100%' px='0px !important' py='14px' >
                     <Text flex='1' textAlign='left' color='rgba(255, 255, 255, 0.88)' fontSize='16px' fontWeight={700} textTransform='uppercase' w='100%'>
-                      {traitTitle}
+                      {`${traitTitle} ${getNumberOfTraitChecked(traitTitle)}`}
                     </Text>
                     {isExpanded ? (
                       <MinusIcon w='12.67px' h='12.67px' color={'rgba(255, 255, 255, 0.88)'} />
@@ -218,27 +260,61 @@ const TraitFilter = ({ NFTs }: { NFTs: any }) => {
 
 
                 {/* List of Trait Types */}
-                <AccordionPanel pb={4}>
+                <AccordionPanel pb={4} h='40' overflowY={'auto'}
+                  className='nftcheese___accordion--panel'  >
                   <Input mb='20px' bg='rgba(33, 33, 33, 1)' border='0px solid #383838' borderRadius={'6px'} placeholder='Search....' _placeholder={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.52)' }}
                     color='rgba(255, 255, 255, 0.88)'
                     _focusWithin={{ outline: 'none' }}
+                    name={`${traitTitle}`}
+                    onChange={() => {
+
+                    }}
+
                   />
 
-                  <VStack spacing='14px' align='flex-start'>
+                  <VStack spacing='14px' align='flex-start'
+
+                  >
                     {traitProperties.map((prop, index) => <>
                       <HStack as='span' spacing={prop.rarenessPercentage <= 2 ? '36px' : '54px'} justify={'space-between'}>
 
                         <HStack as='label' htmlFor={`nftcheese__${prop.traitType}`}>
                           <Checkbox border='2px solid #474747' w='20px' h='20px' borderRadius=' 4px' id={`nftcheese__${prop.traitType}`}
-                            // isChecked={true}
-                            onChange={(e) => {
-                              const tagId = `${prop.traitTitle}-${prop.traitType}-${index}`
+
+                            isChecked={unCheckCheckBoxIfTagIsRemoved(prop, index)}
+
+                            onChange={(e: any) => {
                               const isChecked: boolean = e.target.checked
+
+                              const tagId = `${prop.traitTitle}-${prop.traitType}-${index}`
+
+                              const getNumberOfTraitPropCheckedForThisProperty = trackCheckedTraits.find(trackCheckedTrait => trackCheckedTrait.traitTitle === traitTitle)
+
+                              const numberOfTraitPropCheckedForThisProperty = getNumberOfTraitPropCheckedForThisProperty?.numberOfTraitPropChecked as number
+                              console.log(getNumberOfTraitPropCheckedForThisProperty, 'getNumberOfTraitPropCheckedForThisProperty')
+
+                              const { numberOfTraitChildrenCheck } = individualChosenTrait.find((o: any) => o.traitType == traitTitle)
+
                               if (isChecked) {
                                 setAllTraitTag([...allTraitTag, { traitTitle: prop.traitTitle, traitType: prop.traitType, tagId }])
-                                console.log(isChecked, index)
+                                // Counts Every Traits that is checked in all Traits category
+                                setCheckedTraitCount(checkedTraitCount + 1)
+
+                                // Counts Every Traits that is checked in all Traits category
+                                setTrackCheckedTraits([...trackCheckedTraits, { traitTitle, numberOfTraitPropChecked: numberOfTraitPropCheckedForThisProperty ? numberOfTraitPropCheckedForThisProperty + 1 : 1 }])
+                                setIndividualChosenTrait([...individualChosenTrait, { traitType: traitTitle, numberOfTraitChildrenCheck: numberOfTraitChildrenCheck + 1 }])
+
                               }
+
+
+
                               else {
+                                setIndividualChosenTrait([...individualChosenTrait, { traitType: traitTitle, numberOfTraitChildrenCheck: numberOfTraitChildrenCheck <= 0 ? 0 : -1 }])
+                                // Counts how checkbox have been checked
+                                setCheckedTraitCount(checkedTraitCount <= 0 ? 0 : checkedTraitCount - 1)
+
+                                // setTrackCheckedTraits([...trackCheckedTraits, { traitTitle, numberOfTraitPropChecked: numberOfTraitPropCheckedForThisProperty <= 0 ? 0 : numberOfTraitPropCheckedForThisProperty - 1 }])
+
                                 setAllTraitTag(allTraitTag.filter((traitTag: AllTraitTags) => traitTag.tagId != tagId))
                               }
                             }}
@@ -313,7 +389,7 @@ const TraitFilter = ({ NFTs }: { NFTs: any }) => {
     />
 
 
-  </VStack>
+  </VStack >
 
 };
 
