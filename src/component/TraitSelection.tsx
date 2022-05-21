@@ -137,7 +137,7 @@ export default function TraitSelection(props: ITraitSelectionProps) {
       <Stack spacing={2} direction='column' overflowY='scroll' maxHeight={maxContentHeight}>
         <Box position='relative'>
           <Text flex='1' marginBottom='3' fontSize='lg' textAlign='left' color='text'>Filter traits ({Object.keys(groupedTraits).length})</Text>
-          <Accordion allowToggle reduceMotion allowMultiple>
+          <Accordion allowToggle reduceMotion>
             {Object.keys(groupedTraits).map((group, index) => (
               <AccordionItem isFocusable={false} color='text' borderColor='border-color'>
                 {({ isExpanded }: { isExpanded: boolean }) => (
