@@ -54,43 +54,81 @@ const closeSvgIcon = () => {
 }
 
 
-const TraitFilter = ({ allTraits }: { allTraits: AllTraitsProp }) => {
+const TraitFilter = ({ allTraits: traitsData }: { allTraits: AllTraitsProp }) => {
 
 
 
 
 
   // This contains every tag the user chooses
+  const [allTraits, setAllTraits] = useState<any>([])
   const [allTraitTag, setAllTraitTag] = useState<AllTraitTags[]>([])
 
   // This stores content that users search for and filters the array
-  const [filterTags, setFilterTags] = useState<any>()
 
   // Records how many tags users have chosen in each traits type
   const [individualChosenTrait, setIndividualChosenTrait] = useState<any>([])
-
-
-  useEffect(() => {
-    console.log(individualChosenTrait, 'individualChosenTrait')
-  }, [individualChosenTrait])
+  // const [userTextInput, setUserTextInput] = useState('')
 
   useEffect(() => {
 
-    const filteredArray = allTraits.map((trait) => ({ traitTitle: trait.traitTitle, searchTerm: '' }))
+    // const filteredArray = allTraits.map((trait) => ({ traitTitle: trait.traitTitle, searchTerm: '' }))
 
     const newArray = allTraits.map(a => ({ traitType: a.traitTitle, numberOfTraitChildrenCheck: 0 }))
-
-    setFilterTags(filteredArray)
     setIndividualChosenTrait(newArray)
-  }, [allTraits])
+    setAllTraits(traitsData)
+  }, [traitsData])
 
-  const handleFilterArray = (e, traitTitle) => {
-    console.log(e.target.name)
+
+  // handleFilterArray
+  const handleFilterArray = (searchTerm: string, traitTitle: string) => {
+    // const []
+    if (allTraits) {
+      const searchTermByUser = searchTerm.trim().toLowerCase()
+
+      const { traitProperties } = allTraits.find((prop: any) => prop.traitTitle == traitTitle)
+
+      // This Searches In array of traits property based on user input
+      if (searchTermByUser.length >= 1) {
+
+
+        const searchArrayOfTrait = traitProperties.map((word: any) => {
+          const traitTypeSearch = word.traitType.toLowerCase()
+          if (traitTypeSearch.includes(searchTermByUser)) {
+            return word;
+          }
+        }).filter((w: any) => w != undefined)
+
+
+        const newArray = allTraits.map(trait => {
+          // const { traitTtle, traitProperties } = trait
+          if (trait.traitTitle == traitTitle) {
+            return {
+              ...trait, traitProperties: searchArrayOfTrait
+            }
+          }
+          else { return trait }
+        })
+
+
+        setAllTraits(newArray)
+        // console.log(newArray)
+        
+      }
+      else {
+        setAllTraits(traitsData)
+        
+      }
+
+    }
 
   }
-  // setIndividualChosenTrait(allTraits.map(a => ({ traitType: a.title, numberOfTraitChildrenCheck: 0 })))
 
-  const getNumberOfTraitChecked = (text: string) => {
+  useEffect(() => {
+    console.log(allTraits, 'allTraits')
+  }, [allTraits])
+
+  const getNumberOfTraitChecked = (text: string): number => {
     if (individualChosenTrait.length > 0) {
       const { numberOfTraitChildrenCheck } = individualChosenTrait.find((o: any) => o.traitType == text)
       return numberOfTraitChildrenCheck;
@@ -225,7 +263,7 @@ const TraitFilter = ({ allTraits }: { allTraits: AllTraitsProp }) => {
     {/* Accordion */}
     <Accordion allowToggle w='100%' pr='23px'
     >
-      {allTraits.map(traits => {
+      {allTraits.map((traits) => {
         const { traitProperties, traitTitle } = traits
 
         return <>
@@ -281,7 +319,8 @@ const TraitFilter = ({ allTraits }: { allTraits: AllTraitsProp }) => {
                     name={`${traitTitle}`}
                     onChange={(e: any) => {
                       // Filter's array
-                      handleFilterArray(e, traitTitle)
+                      const userSearchTerm = e.target.value
+                      handleFilterArray(userSearchTerm, traitTitle)
                     }}
 
                   />
@@ -289,7 +328,7 @@ const TraitFilter = ({ allTraits }: { allTraits: AllTraitsProp }) => {
                   <VStack spacing='14px' align='flex-start'
 
                   >
-                    {traitProperties.map((prop, index) => <>
+                    {traitProperties.map((prop, index: number) => <>
                       <HStack as='span' spacing={prop.rarenessPercentage <= 2 ? '36px' : '54px'} justify={'space-between'}>
 
                         <HStack as='label' htmlFor={`nftcheese__${prop.traitType}`}>
