@@ -417,7 +417,6 @@ const TraitFilter = ({ allTraits: traitsData }: { allTraits: AllTraitsProp[] }) 
                         </Checkbox>
 
 
-                        {/* Tag Rarity */}
                         <Box as='span' fontSize='12px' py='4px' px='8px' borderRadius="6px" w='fit-content'
                           bg={prop.rarenessPercentage <= 2 ? '#D38117' : '#666666'} letterSpacing='0.2px' color='rgba(255, 255, 255, 0.88)'>{prop.rarenessPercentage <= 2 ? prop.rarenessPercentage + '%' + ' Rare' : prop.rarenessPercentage + '%'} </Box>
                       </HStack>
