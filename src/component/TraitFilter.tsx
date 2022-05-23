@@ -1,6 +1,8 @@
 import { AddIcon, Icon, MinusIcon } from "@chakra-ui/icons";
 import {
+
   Accordion, AccordionButton, AccordionItem, AccordionPanel, Box, Button, ButtonGroup, Checkbox, CloseButton, HStack, Input, Text, VStack
+  , useColorModeValue
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 
@@ -154,9 +156,8 @@ const TraitFilter = ({ allTraits: traitsData }: { allTraits: AllTraitsProp[] }) 
       , lg: '40%'
     }} pl='23px' pt='25px'
     mx='auto'
-    mb='12'
+    mb='10'
     mt='24px'
-
     h='fit-content'
     align={'flex-start'}
     fontSize='16px'
@@ -173,6 +174,20 @@ const TraitFilter = ({ allTraits: traitsData }: { allTraits: AllTraitsProp[] }) 
         w: '100%',
         overflowX: 'auto',
         overflowY: 'hidden',
+        '&::-webkit-scrollbar': {
+          width: '5px',
+          height: '100%',
+        },
+        '&::-webkit-scrollbar-track': {
+          borderRadius: '10px',
+          bg: 'yellow'
+        }
+        ,
+        '&::-webkit-scrollbar-thumb': {
+          width: '5px',
+          'borderRadius': "10px",
+          backgroundColor: "#C4C4C4"
+        }
 
       },
       '.nftcheese__title': {
@@ -183,6 +198,8 @@ const TraitFilter = ({ allTraits: traitsData }: { allTraits: AllTraitsProp[] }) 
       }
     }}
     pb='70px'
+
+
   >
 
     {/* Title */}
