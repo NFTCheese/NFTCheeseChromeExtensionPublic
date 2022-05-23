@@ -2,7 +2,7 @@ import { AddIcon, Icon, MinusIcon } from "@chakra-ui/icons";
 import {
 
   Accordion, AccordionButton, AccordionItem, AccordionPanel, Box, Button, ButtonGroup, Checkbox, CloseButton, HStack, Input, Text, VStack
-  
+
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 
@@ -345,7 +345,8 @@ const TraitFilter = ({ allTraits: traitsData }: { allTraits: AllTraitsProp[] }) 
                   >
                     {traitProperties.map((prop: traitPropertiesProp, index: number) => <>
 
-                      <HStack as='span' spacing={prop.rarenessPercentage <= 2 ? '36px' : '54px'} justify={'space-between'} w='50%'>
+                      <HStack as='span' spacing={prop.rarenessPercentage <= 2 ? '36px' : '24px'} justify={'space-between'}
+                        w={{ base: prop.rarenessPercentage <= 2 ? '60%' : '45%', lg: prop.rarenessPercentage <= 2 ? '50%' : '35%' }}>
 
                         <Checkbox border='2px solid #474747' w='20px' h='20px' borderRadius=' 4px'
                           isChecked={unCheckCheckBoxIfTagIsRemoved(prop, index)}
