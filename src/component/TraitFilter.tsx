@@ -2,7 +2,6 @@ import { AddIcon, Icon, MinusIcon } from "@chakra-ui/icons";
 import {
 
   Accordion, AccordionButton, AccordionItem, AccordionPanel, Box, Button, ButtonGroup, Checkbox, CloseButton, HStack, Input, Text, VStack
-  , useColorModeValue
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 
