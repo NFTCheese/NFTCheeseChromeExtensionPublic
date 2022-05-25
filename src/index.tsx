@@ -1,13 +1,13 @@
 import "setimmediate";
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import { ColorModeScript } from '@chakra-ui/color-mode'
 import { UserProvider } from './utils/user';
 import Popup from './component/Popup/Popup';
 import GlobalStyles from "./component/GlobalStyles";
+import './index.css';
 
 ReactDOM.render(
   <React.StrictMode>

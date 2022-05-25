@@ -2,7 +2,6 @@ import { AddIcon, Icon, MinusIcon } from "@chakra-ui/icons";
 import {
 
   Accordion, AccordionButton, AccordionItem, AccordionPanel, Box, Button, ButtonGroup, Checkbox, CloseButton, HStack, Input, Text, VStack
-
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 
@@ -440,6 +439,17 @@ const TraitFilter = ({ allTraits: traitsData }: { allTraits: AllTraitsProp[] }) 
     {/* Accordion */}
 
 
+    <Box
+      background={'linear-gradient(270deg, #1B1B1B 0%, rgba(41, 41, 41, 0) 100%)'}
+      w='100%'
+      h='18px'
+      position='relative'
+      left='0'
+      right='0'
+      className="nftcheese__linear"
+      bottom='-14px'
+    />
+
 
 
     <ButtonGroup as={HStack} w='full' bg='#292929'
@@ -448,8 +458,6 @@ const TraitFilter = ({ allTraits: traitsData }: { allTraits: AllTraitsProp[] }) 
       spacing='14px'
       shadow='sm'
     >
-
-
 
 
       <Button colorScheme='gray' bg='#474747'
@@ -470,18 +478,7 @@ const TraitFilter = ({ allTraits: traitsData }: { allTraits: AllTraitsProp[] }) 
       >Confirm</Button>
     </ButtonGroup>
 
-    <Box
-      background={'linear-gradient(270deg, #1B1B1B 0%, rgba(41, 41, 41, 0) 100%)'}
-      w='100%'
-      h='18px'
-      position='relative'
-      left='0'
-      right='0'
-      className="nftcheese__linear"
-      bottom='-14px'
-    />
-
-
+   
   </VStack >
 
 };
