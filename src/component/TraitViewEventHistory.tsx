@@ -1,5 +1,19 @@
-import { Box, Tabs, TabList, TabPanels, Tab, TabPanel, Icon, Button, HStack, Image, Text, useColorModeValue, VStack } from "@chakra-ui/react";
+import { Box, ButtonGroup, Divider, Tabs, TabList, TabPanels, Tab, TabPanel, Icon, Button, HStack, Image, Text, useColorModeValue, VStack } from "@chakra-ui/react";
 import N_Avatar from '../assets/images/nft-avatar-1.png'
+import TraitGraphTab from "./TraitGraphTab";
+
+
+
+const closeSvgIcon = () => {
+    return <>
+        <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fillRule="evenodd" clipRule="evenodd" d="M5.41413 4.00001L7.70713 1.70701C8.09813 1.31601 8.09813 0.684006 7.70713 0.293006C7.31613 -0.0979941 6.68413 -0.0979941 6.29313 0.293006L4.00013 2.58601L1.70713 0.293006C1.31613 -0.0979941 0.684128 -0.0979941 0.293128 0.293006C-0.0978721 0.684006 -0.0978721 1.31601 0.293128 1.70701L2.58613 4.00001L0.293128 6.29301C-0.0978721 6.68401 -0.0978721 7.31601 0.293128 7.70701C0.488128 7.90201 0.744128 8.00001 1.00013 8.00001C1.25613 8.00001 1.51213 7.90201 1.70713 7.70701L4.00013 5.41401L6.29313 7.70701C6.48813 7.90201 6.74413 8.00001 7.00013 8.00001C7.25613 8.00001 7.51213 7.90201 7.70713 7.70701C8.09813 7.31601 8.09813 6.68401 7.70713 6.29301L5.41413 4.00001Z" fill="white" fillOpacity="0.88" />
+        </svg>
+
+
+    </>
+}
+
 
 const etherScanSvg = () => {
     return <>
@@ -17,8 +31,11 @@ const etherScanSvg = () => {
 }
 
 const TraitViewEventHistory = () => {
-    return <VStack h='fit-content' w={{ base: "50%", lg: '40%' }} bg={useColorModeValue("#212121", '#fff')} mx='auto' mt='4' p='3'
+    return <VStack h='fit-content' w={{ base: "50%", lg: '40%' }} bg={useColorModeValue("#212121", '#fff')} mx='auto' mt='4' pt='3' pb='20'
         boxShadow='14px 17px 40px 4px rgba(173, 173, 173, 0.08)' borderRadius={'10px'}
+        px='3'
+        minH='48'
+        position={'relative'}
         sx={{
             '*,*:focus,*:focus-visible,*:focus-within': {
                 outline: 'none',
@@ -42,28 +59,68 @@ const TraitViewEventHistory = () => {
                 <Button bg='#E0AF00' fontSize='12px' color='white' size='sm'> 27 Ξ  Buy now</Button>
             </HStack>
         </Box>
-        {/* Tabs */}
-        <Tabs isFitted w='100%' variant='line' p='0px'>
+
+        <Tabs isFitted w='100%' variant='line' p='0px' >
             <TabList color='#fff' bg='transparent'>
                 <Tab _selected={{ color: '#fff', borderColor: '#E0AF00' }} borderColor='#212121' fontSize='xs'>Transaction</Tab>
                 <Tab _selected={{ color: '#fff', borderColor: '#E0AF00' }} borderColor='#212121' fontSize='xs'>Traits</Tab>
             </TabList>
 
-            <TabPanels w='full' p='0px !important'>
+            <TabPanels w='full' p='0px !important' position='relative' >
                 <TabPanel>
-                    <p>two!</p>
+                    <TraitGraphTab />
                 </TabPanel>
-                <TabPanel w='full' p='0px !important'>
-                    <VStack w='full'>
-                        <HStack bg='red' w='full'>
-                            <Text as='span'> Voting Power: 1</Text>
-                            <Box as='span'>Epic:2.05%-23Ξ</Box>
-                            <Text as='span'></Text>
-                        </HStack>
+
+                <TabPanel w='full' px='2' mt='4'>
+                    <VStack w='full' spacing='4'>
+                        {[1, 2, 3, 4].map((ev: any) => <>
+                            <HStack w='full' fontSize='xs' justify='space-between'>
+                                <Text as='span' color='rgba(255, 255, 255, 0.7) !important'> Voting Power: 1</Text>
+                                <Box as='span' color='#000 !important' bg='#E0AF00' px='4' py='1' borderRadius={'5px'}>
+                                    <Text as='span' fontWeight={800} fontSize='sm'>
+                                        Epic:2.05%-23Ξ {ev}
+                                    </Text>
+                                </Box>
+                                {/* <Text as='span'></Text> */}
+                            </HStack>
+
+                        </>)}
+
+                        <Divider />
+
+
+
                     </VStack>
                 </TabPanel>
             </TabPanels>
         </Tabs>
+        <Box
+            // background={'green'}
+            background={'linear-gradient(270deg, #1B1B1B 0%, rgba(41, 41, 41, 0) 100%)'}
+            w='100%'
+            h='18px'
+            position='absolute'
+            left='0'
+            right='0'
+            className="nftcheese__linear"
+            bottom='55px'
+        />
+
+
+        <ButtonGroup as={HStack} w='full' bg='#292929'
+            position={'absolute'} bottom='0' left='0' right='0' minH={14} justify='center' size='sm'
+            color='#fff !important'
+            spacing='14px'
+            shadow='sm'
+        >
+
+            <Button colorScheme='gray' bg='#474747'
+                py='10px'
+                px='20px'
+                fontWeight={400}
+                leftIcon={<Icon as={closeSvgIcon} fontSize={'9px'} fontWeight={600} />}
+                borderRadius='6px' color='rgba(255, 255, 255, 0.88)'>Cancel</Button>
+        </ButtonGroup>
         {/* Tabs */}
 
 
