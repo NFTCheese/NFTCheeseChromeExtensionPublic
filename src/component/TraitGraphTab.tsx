@@ -4,7 +4,7 @@ import ApexChart from "apexcharts";
 import ImageFile from "../assets/images/nft-avatar-1.png";
 
 
-
+// declare let ApexChart: any
 
 
 // const { series, options } = data
