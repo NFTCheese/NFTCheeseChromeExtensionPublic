@@ -1,4 +1,4 @@
-import { Box, Button, ButtonGroup, HStack, Icon } from "@chakra-ui/react";
+import { Button, ButtonGroup, HStack, Icon } from "@chakra-ui/react";
 
 //  Confirm Button Icon
 const checkSvgIcon = () => {
