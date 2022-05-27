@@ -65,7 +65,7 @@ const options = {
 
 const TraitGraphTab = () => {
     useEffect(() => {
-        const chart = new ApexChart(document.getElementById('chart'), options)
+        const chart = new ApexChart(document.getElementById('chart'), options) as any
         chart.render().then(() => {
             for (let i = 1; i <= chart.w.globals.series[0].length; i++) {
                 const datapoint = chart.w.config.series[0].data[i - 1];
