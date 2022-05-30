@@ -1,4 +1,36 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
+
+// label colors for trait selection ui/container
+export function getTraitColors(uniqueScore: number) {
+  if (uniqueScore < 0.1 / 100) {
+    return {
+      bg: 'red',
+      color: 'blackAlpha.700',
+    };
+  }
+  if (uniqueScore < 1 / 100) {
+    return {
+      bg: 'yellow',
+      color: 'blackAlpha.700',
+    };
+  }
+  if (uniqueScore < 10 / 100) {
+    return {
+      bg: 'blue',
+      color: 'blackAlpha.700',
+    };
+  }
+  if (uniqueScore < 50 / 100) {
+    return {
+      bg: 'green',
+      color: 'blackAlpha.700',
+    };
+  }
+  return {
+    bg: 'gray',
+    color: 'blackAlpha.700',
+  };
+}
 
 /* rarityScore = rank / totalSupply */
 export const getRarityLabel = (rarityScore: number): string => {
