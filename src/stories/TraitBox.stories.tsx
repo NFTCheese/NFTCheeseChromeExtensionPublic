@@ -5,7 +5,7 @@ import GlobalStyles from '../component/GlobalStyles';
 import { weiToEth } from '../utils/ethereum';
 
 const meta: Meta = {
-  title: 'Trait Box',
+  title: 'Trait Selector',
   component: NFTBox
 }
 export default meta;

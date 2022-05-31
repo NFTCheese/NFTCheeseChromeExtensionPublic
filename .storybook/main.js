@@ -9,11 +9,11 @@ module.exports = {
     builder: 'webpack5',
   },
   addons: [
-    '@storybook/addon-links',
-    '@storybook/addon-essentials',
+     '@storybook/addon-links',
+     '@storybook/addon-essentials',
     '@storybook/preset-create-react-app',
-    'storybook-addon-toolbar-actions/register',
-    'storybook-addon-headless'
+     'storybook-addon-toolbar-actions/register',
+     'storybook-addon-headless'
   ],
   webpackFinal: async (config) => {
     // console.log(util.inspect(config.resolve, {showHidden: false, depth: null, colors: true}))
