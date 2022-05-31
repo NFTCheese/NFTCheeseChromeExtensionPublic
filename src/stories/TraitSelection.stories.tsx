@@ -5,48 +5,58 @@ import TraitSelection from '../component/TraitSelection'
 
 // import Filters from '../components/SearchResults/Filters';
 
-const traits = [
+const traits = [{
+  property: 'shoes',
+  value: 'Nike Air jordans', uniqueScore: 0.142
+},
   {
     property: 'background',
-    value: 'mint',
-    uniqueScore: 0.005
+    value: 'mint', uniqueScore: 0.005
   },
   {
     property: 'body',
     value: 'tribal necklace',
-    uniqueScore: 0.04
+    uniqueScore: 0.004,
   },
   {
     property: 'face',
     value: 'clout goggles',
-    uniqueScore: 0.5
+    uniqueScore: 0.5,
+  },
+  {
+    property: 'shoes',
+    value: "Men's Coffee Sneakers - Stealth Black", uniqueScore: 0.012
   },
   {
     property: 'ear',
     value: 'big',
-    uniqueScore: 0.02
+    uniqueScore: 0.02,
   },
   {
-    property: 'background',
-    value: 'black',
-    uniqueScore: 0.0051
+    property: 'glasses',
+    value: 'transparent', uniqueScore: 0.051
   },
   {
-    property: 'body',
-    value: 'tribal shirt',
-    uniqueScore: 0.042
+    property: 'shoes',
+    value: 'Adidas NMD R1', uniqueScore: 0.442
   },
   {
-    property: 'face',
-    value: 'nice goggles',
-    uniqueScore: 0.54
+    property: 'shoes',
+    value: "Men's Coffee Sneakers - Rebel White", uniqueScore: 0.052
   },
   {
-    property: 'ear',
-    value: 'small',
-    uniqueScore: 0.012
+    property: 'jewelry',
+    value: 'diamond watch', uniqueScore: 0.0155,
   },
-]
+  {
+    property: 'shoes',
+    value: 'Nike Air Max 90', uniqueScore: 0.042
+  },
+  {
+    property: 'hair',
+    value: 'comb-over', uniqueScore: 0.012,
+  },
+];
 
 export default {
   title: 'TraitSelection',
@@ -65,5 +75,6 @@ export const Default = Template.bind({})
 Default.args = {
   traits,
   selectedTraits: traits.slice(0, 2),
-  onSelect: console.log
+  onConfirm: console.log,
+  onCancel: console.log
 }

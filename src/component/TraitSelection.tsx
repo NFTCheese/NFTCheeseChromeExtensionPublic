@@ -1,156 +1,191 @@
-import { Box, Text, HStack } from "@chakra-ui/layout";
-import { CUIAutoComplete } from 'chakra-ui-autocomplete'
-import { useMemo } from "react";
-import { Tag, TagCloseButton, TagLabel, useToken } from '@chakra-ui/react'
+import { ChangeEvent, useEffect, useMemo, useState } from 'react';
+import {
+  Box,
+  Text,
+  HStack,
+  Heading,
+  Accordion,
+  AccordionButton,
+  AccordionItem,
+  AccordionPanel,
+  useToken,
+  Input,
+  useColorModeValue,
+  Button,
+} from '@chakra-ui/react';
+import { AddIcon, CheckIcon, CloseIcon, MinusIcon } from '@chakra-ui/icons';
+import { useAutoAnimate } from '@formkit/auto-animate/react'
+import { TraitBoxWithDeleteOption } from './TraitBoxWithDeleteOption';
+import { TraitSelectionCheckBox } from './TraitSelectionCheckbox';
+import { uniq } from 'lodash';
+
+const scrollBarStyle = (
+  scrollBarBG: string,
+  scrollBarOutlineColor: string,
+  scrollBarThumbBG: string
+) => {
+  return {
+    '&::-webkit-scrollbar': {
+      backgroundColor: scrollBarBG,
+      borderRadius: '3px',
+      width: '3px',
+      outlineWidth: '2px',
+      outlineColor: scrollBarOutlineColor,
+    },
+    '&::-webkit-scrollbar-thumb': {
+      backgroundColor: scrollBarThumbBG,
+      borderRadius: '3px',
+      width: '3px',
+    },
+  };
+};
 
 export type TraitWithUniqueScore = {
-  property: string
-  value: string
-  uniqueScore: number
-  id?: string
-}
+  property: string;
+  value: string;
+  uniqueScore: number;
+  id?: string;
+};
 
 type ITraitSelectionProps = {
-  traits: TraitWithUniqueScore[]
-  selectedTraits: TraitWithUniqueScore[]
-  onSelect: (trait: TraitWithUniqueScore[]) => void
-}
+  traits: TraitWithUniqueScore[];
+  selectedTraits: TraitWithUniqueScore[];
+  onConfirm: (traits: TraitWithUniqueScore[]) => void;
+  onCancel: () => void;
+};
 
-type TraitSeletable = TraitWithUniqueScore & {
-  label: string
-}
+export type TraitSelectable = TraitWithUniqueScore & {
+  label: string;
+};
 
-export function TraitBox(trait: TraitWithUniqueScore) {
-  const colors = getTraitColors(trait.uniqueScore);
+type ITraitAccordionProps = {
+  property: string
+  propertyValues: TraitWithUniqueScore[]
+  sessionValues: TraitWithUniqueScore[]
+  onTraitToggle: (trait: Omit<TraitWithUniqueScore, 'id'>) => void
+}
+const TraitAccordion = (props: ITraitAccordionProps) => {
+  const [borderColor] = useToken('colors', ['border-color']);
+  const scrollBarBG = useColorModeValue('gray.100', 'gray.800');
+  const scrollBarOutlineColor = useColorModeValue('nftcheese-bg-light', 'nftcheese-bg-dark');
+  const scrollBarThumbBG = useColorModeValue('nftcheese-bg-dark', 'nftcheese-bg-light');
+  const labelColor = useColorModeValue('black', 'white');
+  const [traitFilterTerm, setTraitFilterTerm] = useState('');
+
   return (
-    <Box
-      cursor="pointer"
-      borderRadius="md"
-      p={2}
-      bg={colors.bg}
-      color={colors.color}
-      display="flex"
-      justifyContent="space-between"
-      w={180}
-    >
-      <Box>
-        <Text color="inherit"
-          fontWeight="bold">{trait.property}</Text>
-        <Text color="inherit">{trait.value}</Text>
-      </Box>
-      <Box display="flex" justifyContent="center" alignItems="center">
-        {trait.uniqueScore > 0 && <Text color="inherit">{Math.round(trait.uniqueScore * 100) / 100}%</Text>}
-      </Box>
-    </Box>
+    <AccordionItem borderColor={borderColor}>
+      {({ isExpanded }: { isExpanded: boolean }) => {
+        return (
+          <Heading as="h2" color={'text'}>
+            <AccordionButton
+              py="14px"
+              _focus={{
+                boxShadow: '0 0 0 3px nftcheese-bg',
+              }}
+              pl={0}
+            >
+              <Box flex="1" textAlign="left" fontWeight="semibold" letterSpacing={0.2} color={labelColor}>
+                {props.property.toUpperCase()}
+              </Box>
+
+              <div>
+                {isExpanded ? (
+                  <MinusIcon w={4} h={4} color="text" />
+                ) : (
+                  <AddIcon w={4} h={4} color="text" />
+                )}
+              </div>
+            </AccordionButton>
+
+            <AccordionPanel px={2} pb={2} pt={1} color={'text'}>
+              {props.propertyValues.length > 4 &&
+                <Input
+                  placeholder="Filter Traits here"
+                  size="md"
+                  onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                    setTraitFilterTerm(event.target.value)
+                  }
+                  value={traitFilterTerm}
+                  mb="12px"
+                />
+              }
+
+              <Box
+                id="test"
+                maxHeight={props.propertyValues.length > 4 ? '160px' : '100%'}
+                width="100%"
+                overflowY={'auto'}
+                sx={scrollBarStyle(scrollBarBG, scrollBarOutlineColor, scrollBarThumbBG)}
+              >
+                {props.propertyValues.filter(trait => trait.value.toLowerCase().includes(traitFilterTerm.toLowerCase())).map((trait: TraitWithUniqueScore, key) => (
+                  <TraitSelectionCheckBox
+                    key={key}
+                    trait={trait}
+                    isChecked={props.sessionValues.some(
+                      (item) => item.property === trait.property && item.value === trait.value
+                    )}
+                    onSelect={() => props.onTraitToggle(trait)}
+                  />
+                ))}
+              </Box>
+            </AccordionPanel>
+          </Heading>
+        );
+      }}
+    </AccordionItem>
   )
 }
 
-type ITraitBoxWithDeleteOptionProps = {
-  trait: TraitWithUniqueScore
-  onRemove: () => void
-}
-
-export function getTraitColors(uniqueScore: number) {
-  if (uniqueScore <= 1) {
-    return {
-      bg: 'yellow.500',
-      color: 'blackAlpha.700',
-    }
-  }
-  if (uniqueScore <= 5) {
-    return {
-      bg: 'blue.500',
-      color: 'blackAlpha.700',
-    }
-  }
-  return {
-    bg: 'gray',
-    color: 'blackAlpha.700',
-  }
-}
-
-export function getColorScheme(uniqueScore: number) {
-  if (uniqueScore <= 1) {
-    return 'yellow'
-  }
-  if (uniqueScore <= 5) {
-    return 'blue'
-  }
-  return 'gray'
-}
-
-
-function TraitBoxWithDeleteOption(props: ITraitBoxWithDeleteOptionProps) {
-  const { trait, onRemove } = props;
-  const colorScheme = getColorScheme(trait.uniqueScore);
-
-  return (
-    <Tag size={'lg'} variant='solid' colorScheme={colorScheme}>
-      <TagLabel>{trait.property}: {trait.value.toUpperCase()}</TagLabel>
-      <TagCloseButton onClick={onRemove}/>
-    </Tag>
-  )
-}
-
-function traitWithLabel(trait: TraitWithUniqueScore): TraitSeletable {
-  return {
-    ...trait,
-    label: `${trait.property} - ${trait.value}`,
-    // value: `${trait.property} - ${trait.value}`,
-  }
+const isSameTrait = (traitA: TraitWithUniqueScore, traitB: TraitWithUniqueScore): boolean => {
+  return traitA.property === traitB.property && traitA.value === traitB.value;
 }
 
 export default function TraitSelection(props: ITraitSelectionProps) {
-  const handleSelectedItemsChange = (selectedItems: TraitWithUniqueScore[]) => {
-    props.onSelect(selectedItems);
-  };
+  // This is the temp values
+  const [sessionValues, setSessionValues] = useState<TraitWithUniqueScore[]>([]);
 
-  const removeItem = (selectedItem: TraitWithUniqueScore) => {
-    props.onSelect(selectedItems.filter(
-      item => !(item.property === selectedItem.property && item.value === selectedItem.value)
-    ));
-  };
+  const properties = useMemo(() => uniq(props.traits.map(({ property }) => property)), [props.traits])
 
-  const unselectedTraits = useMemo(() => {
-    return props.traits.map(traitWithLabel)
-      .filter(
-        item => !props.selectedTraits
-          .some(
-            selectedItem => selectedItem.property === item.property &&
-              selectedItem.value === item.value
-          )
-      )
-  }, [props.selectedTraits, props.traits])
+  useEffect(() => {
+    if (props.selectedTraits.length > 0) {
+      setSessionValues([...props.selectedTraits]);
+    }
+  }, [props.selectedTraits]);
 
-  const selectedItems = useMemo(() => {
-    return props.selectedTraits.map(traitWithLabel);
-  }, [props.selectedTraits])
-
-  const [borderColor] = useToken(
-    'colors',
-    ['border-color']
-  )
+  const scrollBarBG = useColorModeValue('gray.100', 'gray.800');
+  const scrollBarOutlineColor = useColorModeValue('nftcheese-bg-light', 'nftcheese-bg-dark');
+  const scrollBarThumbBG = useColorModeValue('nftcheese-bg-dark', 'nftcheese-bg-light');
+  const labelColor = useColorModeValue('black', 'white');
+  const [selectedTraitsContainerRef] = useAutoAnimate<HTMLDivElement>();
 
   return (
-    <Box w={588} color="white">
-      <Text marginBottom={'0.5rem'}>Filter traits ({props.selectedTraits.length}):</Text>
+    <Box w={588} color="white" bg="nftcheese-bg" borderRadius="md" pt="5">
+      <Text color={'text'} marginBottom={'0.6rem'} mx="5">
+        Selected Traits ({sessionValues.length}):
+      </Text>
 
-      <Box position="relative">
-        <Box position="absolute" zIndex={1} top={0} right={0} w={8} h={'full'} bgGradient={'linear(to-r, #f2f2f200, card-bg)'}>
-        </Box>
+      <Box position="relative" mx="5">
         <HStack
           gap={1}
-          paddingBottom={'1rem'}
-          overflow={'scroll'}
+          paddingBottom={'2.3rem'}
+          overflowX="scroll"
+          css={{
+            '&::-webkit-scrollbar': {
+              display: 'none',
+            },
+          }}
+          ref={selectedTraitsContainerRef}
         >
-          {props.selectedTraits.length === 0 &&
-            <Text color="gray">No trait selected</Text>
-          }
-          {props.selectedTraits.map((item, i) => (
-            <Box key={i}>
+          {sessionValues.length === 0 && <Text color={'text'}>No trait selected</Text>}
+          {sessionValues.map((item, i) => (
+            <Box key={`${item.id}-${item.property}-${item.value}`}>
               <TraitBoxWithDeleteOption
                 trait={item}
-                onRemove={() => removeItem(item)}
+                onRemove={() => {
+                  setSessionValues((sessionValues) => {
+                    return sessionValues.filter(selectedTrait => !isSameTrait(item, selectedTrait))
+                  })
+                }}
               />
             </Box>
           ))}
@@ -158,57 +193,77 @@ export default function TraitSelection(props: ITraitSelectionProps) {
       </Box>
 
       <Box>
-        <CUIAutoComplete<TraitSeletable>
-          label="Search traits"
-          tagStyleProps={{
-            display: 'none'
-          }}
-          placeholder="Search traits"
-          items={unselectedTraits}
-          selectedItems={selectedItems}
-          onSelectedItemsChange={(changes) => {
-            if (changes.selectedItems) {
-              handleSelectedItemsChange(changes.selectedItems)
-            }
-          }}
-          itemRenderer={TraitBox}
-          listStyleProps={{
-            bg: 'transparent',
-            borderRadius: 'md',
-            border: `1px solid ${borderColor}`,
-            display: 'grid',
-            justifyItems: 'center',
-            gridTemplateColumns: '1fr 1fr 1fr',
-            boxShadow: '0px 6px 20px -2px rgba(25, 25, 26, 0.62);',
-            maxHeight: 200,
-            overflow: 'auto'
-          }}
-          disableCreateItem
-          createItemRenderer={() => (
-            <Box>
-              No trait found
-            </Box>
-          )}
-          listItemStyleProps={{
-            background: 'none'
-          }}
-          inputStyleProps={{
-            border: '1px solid',
-            borderColor: borderColor,
-            bg: 'transparent'
-          }}
-          labelStyleProps={{
-            marginBottom: 0,
-            display: 'none',
-            fontWeight: 'normal',
-          }}
-          icon={() => <></>}
-          highlightItemBg={'none'}
-          toggleButtonStyleProps={{
-            display: 'none'
-          }}
-        />
+        <Text pb="17px" color={labelColor} mx="5">
+          Filter Traits:
+        </Text>
+        <Accordion
+          allowToggle
+          maxHeight="313px"
+          overflowY="scroll"
+          pr="13px"
+          mb="48px"
+          mx="5"
+          sx={scrollBarStyle(scrollBarBG, scrollBarOutlineColor, scrollBarThumbBG)}
+        >
+          {properties?.map((property: string, key) => (
+            <TraitAccordion
+              key={key}
+              property={property}
+              sessionValues={sessionValues}
+              propertyValues={props.traits.filter(
+                (trait) => trait.property === property
+              )}
+              onTraitToggle={(toggledTrait) => {
+                setSessionValues((selectedTraits) => {
+                  const newSelectedTraits = selectedTraits.filter(selectedTrait => !isSameTrait(selectedTrait, toggledTrait));
+                  if (newSelectedTraits.length === selectedTraits.length) {
+                    return [
+                      toggledTrait,
+                      ...selectedTraits
+                    ]
+                  }
+                  return newSelectedTraits;
+                });
+              }}
+            />
+          ))}
+        </Accordion>
+      </Box>
+      <Box
+        height="100%"
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        boxShadow="dark-lg"
+      >
+        <Box my="16px" display="flex">
+          <Button
+            display="flex"
+            alignItems="center"
+            mr="14px"
+            type="button"
+            onClick={props.onCancel}
+          >
+            <CloseIcon fontSize="12px" color="inherit" mr="14px" />
+            <Text fontSize="14px">
+              Cancel
+            </Text>
+          </Button>
+          <Button
+            display="flex"
+            alignItems="center"
+            mr="14px"
+            type="button"
+            colorScheme='green'
+            onClick={() => props.onConfirm(sessionValues)}
+          >
+            <CheckIcon fontSize="12px" color="white" mr="14px" />
+            <Text color="white" fontSize="14px">
+              Confirm
+            </Text>
+          </Button>
+        </Box>
       </Box>
     </Box>
-  )
+  );
 }
