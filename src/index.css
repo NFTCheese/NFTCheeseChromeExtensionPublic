@@ -1,8 +1,9 @@
+
 /* @tailwind base;
 @tailwind components;
 @tailwind utilities; */
 .btn-gradient-2 {
-  background: 
+  background:
     linear-gradient(var(--color-bg), var(--color-bg)) padding-box,
     linear-gradient(to right, darkblue, darkorchid) border-box;
   border-radius: 50em;
@@ -18,8 +19,9 @@
   color: var(--color-contrast-medium);
   padding: var(--space-xs) var(--space-md);
   cursor: pointer;
-  transition: color .2s; 
+  transition: color .2s;
 }
+
 .btn-gradient-2:hover {
   color: var(--color-contrast-high);
 }
