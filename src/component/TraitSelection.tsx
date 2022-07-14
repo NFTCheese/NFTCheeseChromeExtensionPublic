@@ -14,12 +14,12 @@ import {
   Button,
 } from '@chakra-ui/react';
 import { AddIcon, CheckIcon, CloseIcon, MinusIcon } from '@chakra-ui/icons';
-import { useAutoAnimate } from '@formkit/auto-animate/react'
+import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { TraitBoxWithDeleteOption } from './TraitBoxWithDeleteOption';
 import { TraitSelectionCheckBox } from './TraitSelectionCheckbox';
 import { uniq } from 'lodash';
 
-const scrollBarStyle = (
+export const scrollBarStyle = (
   scrollBarBG: string,
   scrollBarOutlineColor: string,
   scrollBarThumbBG: string
@@ -59,11 +59,11 @@ export type TraitSelectable = TraitWithUniqueScore & {
 };
 
 type ITraitAccordionProps = {
-  property: string
-  propertyValues: TraitWithUniqueScore[]
-  sessionValues: TraitWithUniqueScore[]
-  onTraitToggle: (trait: Omit<TraitWithUniqueScore, 'id'>) => void
-}
+  property: string;
+  propertyValues: TraitWithUniqueScore[];
+  sessionValues: TraitWithUniqueScore[];
+  onTraitToggle: (trait: Omit<TraitWithUniqueScore, 'id'>) => void;
+};
 const TraitAccordion = (props: ITraitAccordionProps) => {
   const [borderColor] = useToken('colors', ['border-color']);
   const scrollBarBG = useColorModeValue('gray.100', 'gray.800');
@@ -84,7 +84,13 @@ const TraitAccordion = (props: ITraitAccordionProps) => {
               }}
               pl={0}
             >
-              <Box flex="1" textAlign="left" fontWeight="semibold" letterSpacing={0.2} color={labelColor}>
+              <Box
+                flex="1"
+                textAlign="left"
+                fontWeight="semibold"
+                letterSpacing={0.2}
+                color={labelColor}
+              >
                 {props.property.toUpperCase()}
               </Box>
 
@@ -98,7 +104,7 @@ const TraitAccordion = (props: ITraitAccordionProps) => {
             </AccordionButton>
 
             <AccordionPanel px={2} pb={2} pt={1} color={'text'}>
-              {props.propertyValues.length > 4 &&
+              {props.propertyValues.length > 4 && (
                 <Input
                   placeholder="Filter Traits here"
                   size="md"
@@ -108,7 +114,7 @@ const TraitAccordion = (props: ITraitAccordionProps) => {
                   value={traitFilterTerm}
                   mb="12px"
                 />
-              }
+              )}
 
               <Box
                 id="test"
@@ -117,34 +123,41 @@ const TraitAccordion = (props: ITraitAccordionProps) => {
                 overflowY={'auto'}
                 sx={scrollBarStyle(scrollBarBG, scrollBarOutlineColor, scrollBarThumbBG)}
               >
-                {props.propertyValues.filter(trait => trait.value.toLowerCase().includes(traitFilterTerm.toLowerCase())).map((trait: TraitWithUniqueScore, key) => (
-                  <TraitSelectionCheckBox
-                    key={key}
-                    trait={trait}
-                    isChecked={props.sessionValues.some(
-                      (item) => item.property === trait.property && item.value === trait.value
-                    )}
-                    onSelect={() => props.onTraitToggle(trait)}
-                  />
-                ))}
+                {props.propertyValues
+                  .filter((trait) =>
+                    trait.value.toLowerCase().includes(traitFilterTerm.toLowerCase())
+                  )
+                  .map((trait: TraitWithUniqueScore, key) => (
+                    <TraitSelectionCheckBox
+                      key={key}
+                      trait={trait}
+                      isChecked={props.sessionValues.some(
+                        (item) => item.property === trait.property && item.value === trait.value
+                      )}
+                      onSelect={() => props.onTraitToggle(trait)}
+                    />
+                  ))}
               </Box>
             </AccordionPanel>
           </Heading>
         );
       }}
     </AccordionItem>
-  )
-}
+  );
+};
 
 const isSameTrait = (traitA: TraitWithUniqueScore, traitB: TraitWithUniqueScore): boolean => {
   return traitA.property === traitB.property && traitA.value === traitB.value;
-}
+};
 
 export default function TraitSelection(props: ITraitSelectionProps) {
   // This is the temp values
   const [sessionValues, setSessionValues] = useState<TraitWithUniqueScore[]>([]);
 
-  const properties = useMemo(() => uniq(props.traits.map(({ property }) => property)), [props.traits])
+  const properties = useMemo(
+    () => uniq(props.traits.map(({ property }) => property)),
+    [props.traits]
+  );
 
   useEffect(() => {
     if (props.selectedTraits.length > 0) {
@@ -183,8 +196,10 @@ export default function TraitSelection(props: ITraitSelectionProps) {
                 trait={item}
                 onRemove={() => {
                   setSessionValues((sessionValues) => {
-                    return sessionValues.filter(selectedTrait => !isSameTrait(item, selectedTrait))
-                  })
+                    return sessionValues.filter(
+                      (selectedTrait) => !isSameTrait(item, selectedTrait)
+                    );
+                  });
                 }}
               />
             </Box>
@@ -210,17 +225,14 @@ export default function TraitSelection(props: ITraitSelectionProps) {
               key={key}
               property={property}
               sessionValues={sessionValues}
-              propertyValues={props.traits.filter(
-                (trait) => trait.property === property
-              )}
+              propertyValues={props.traits.filter((trait) => trait.property === property)}
               onTraitToggle={(toggledTrait) => {
                 setSessionValues((selectedTraits) => {
-                  const newSelectedTraits = selectedTraits.filter(selectedTrait => !isSameTrait(selectedTrait, toggledTrait));
+                  const newSelectedTraits = selectedTraits.filter(
+                    (selectedTrait) => !isSameTrait(selectedTrait, toggledTrait)
+                  );
                   if (newSelectedTraits.length === selectedTraits.length) {
-                    return [
-                      toggledTrait,
-                      ...selectedTraits
-                    ]
+                    return [toggledTrait, ...selectedTraits];
                   }
                   return newSelectedTraits;
                 });
@@ -245,16 +257,14 @@ export default function TraitSelection(props: ITraitSelectionProps) {
             onClick={props.onCancel}
           >
             <CloseIcon fontSize="12px" color="inherit" mr="14px" />
-            <Text fontSize="14px">
-              Cancel
-            </Text>
+            <Text fontSize="14px">Cancel</Text>
           </Button>
           <Button
             display="flex"
             alignItems="center"
             mr="14px"
             type="button"
-            colorScheme='green'
+            colorScheme="green"
             onClick={() => props.onConfirm(sessionValues)}
           >
             <CheckIcon fontSize="12px" color="white" mr="14px" />
