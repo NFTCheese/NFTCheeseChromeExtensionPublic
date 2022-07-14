@@ -1,21 +1,53 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from 'react';
+
+// label colors for trait selection ui/container
+export function getTraitColors(uniqueScore: number) {
+  if (uniqueScore <= 0.1 / 100) {
+    return {
+      bg: 'red',
+      color: 'blackAlpha.700',
+    };
+  }
+  if (uniqueScore <= 1 / 100) {
+    return {
+      bg: 'yellow',
+      color: 'blackAlpha.700',
+    };
+  }
+  if (uniqueScore <= 10 / 100) {
+    return {
+      bg: 'blue',
+      color: 'blackAlpha.700',
+    };
+  }
+  if (uniqueScore <= 50 / 100) {
+    return {
+      bg: 'green',
+      color: 'blackAlpha.700',
+    };
+  }
+  return {
+    bg: 'gray',
+    color: 'blackAlpha.700',
+  };
+}
 
 /* rarityScore = rank / totalSupply */
 export const getRarityLabel = (rarityScore: number): string => {
   if (rarityScore < 0.1 / 100) {
-    return 'legend'
+    return 'legend';
   }
   if (rarityScore < 1 / 100) {
-    return 'epic'
+    return 'epic';
   }
   if (rarityScore < 10 / 100) {
-    return 'rare'
+    return 'rare';
   }
   if (rarityScore < 50 / 100) {
-    return 'uncommon'
+    return 'uncommon';
   }
   return 'common';
-}
+};
 
 export const RARITY_TYPES = [
   {
@@ -43,40 +75,36 @@ export const RARITY_TYPES = [
     name: 'common' as const,
     color: { light: 'gray.200', dark: 'gray.500' },
   },
-]
-export type RarityName = typeof RARITY_TYPES[number]['name']
+];
+export type RarityName = typeof RARITY_TYPES[number]['name'];
 
 export const determineRarityType = (rank: number, tokenCount: number) => {
-  return rank === 1
-    ? RARITY_TYPES[0]
-    : RARITY_TYPES.find(({ top }) => rank / tokenCount <= top)!
-}
-
+  return rank === 1 ? RARITY_TYPES[0] : RARITY_TYPES.find(({ top }) => rank / tokenCount <= top)!;
+};
 
 export const useTraitCountExcluded = (address: string | null) => {
-  const [traitCountExcluded, setTraitCountExcluded] = useState<boolean | null>(
-    null,
-  )
+  const [traitCountExcluded, setTraitCountExcluded] = useState<boolean | null>(null);
 
-  const storageKey = `excludeTraitCount:${address}`
+  const storageKey = `excludeTraitCount:${address}`;
 
   useEffect(() => {
-    if (!address) return
+    if (!address) return;
 
-    const listener: Parameters<
-      typeof chrome.storage.onChanged.addListener
-    >[0] = (changes, area) => {
+    const listener: Parameters<typeof chrome.storage.onChanged.addListener>[0] = (
+      changes,
+      area
+    ) => {
       if (area === 'sync' && changes[storageKey]) {
-        setTraitCountExcluded(Boolean(changes[storageKey].newValue || false))
+        setTraitCountExcluded(Boolean(changes[storageKey].newValue || false));
       }
-    }
-    chrome.storage.onChanged.addListener(listener)
+    };
+    chrome.storage.onChanged.addListener(listener);
     chrome.storage.sync.get([storageKey], (res) => {
-      setTraitCountExcluded(res[storageKey] ?? false)
-    })
+      setTraitCountExcluded(res[storageKey] ?? false);
+    });
 
-    return () => chrome.storage.onChanged.removeListener(listener)
-  }, [storageKey, address])
+    return () => chrome.storage.onChanged.removeListener(listener);
+  }, [storageKey, address]);
 
   return [
     traitCountExcluded,
@@ -84,11 +112,11 @@ export const useTraitCountExcluded = (address: string | null) => {
       if (exclude) {
         chrome.storage.sync.set({
           [storageKey]: true,
-        })
+        });
       } else {
-        chrome.storage.sync.remove(storageKey)
+        chrome.storage.sync.remove(storageKey);
       }
-      setTraitCountExcluded(exclude)
+      setTraitCountExcluded(exclude);
     },
-  ] as const
-}
+  ] as const;
+};
