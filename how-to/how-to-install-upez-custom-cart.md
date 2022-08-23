@@ -8,11 +8,9 @@
 2.  Click **Theme settings** on the bottom left corner, then select the **App-embeds** tab on the right panel, then make sure that the toggle button for **UPEZ Custom Cart Drawer** is **ON**
 
     <figure><img src="../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
-3. And congratulations, you have successfully installed the UPEZ Custom Cart Drawer.&#x20;
+3.  And congratulations, you have successfully installed the UPEZ Custom Cart Drawer. You can add some items to the cart to see how the cart drawer now looks:
 
-
-
-
+    <figure><img src="../.gitbook/assets/CleanShot 2022-08-23 at 23.11.11.jpg" alt=""><figcaption></figcaption></figure>
 {% endtab %}
 
 {% tab title="Shopify 1.0" %}
