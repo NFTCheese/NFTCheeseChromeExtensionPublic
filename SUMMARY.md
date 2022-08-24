@@ -4,4 +4,4 @@
 
 ## 🔧 How-to
 
-* [How to install UPEZ Custom Cart](how-to/how-to-install-upez-custom-cart.md)
+* [How to install UPEZ Custom Cart Drawer](how-to/how-to-install-upez-custom-cart-drawer.md)
