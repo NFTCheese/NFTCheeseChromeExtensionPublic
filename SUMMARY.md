@@ -1,6 +1,7 @@
 # Table of contents
 
 * [UPEZ](README.md)
+* [About us](about-us.md)
 
 ## 🔧 How-to
 
