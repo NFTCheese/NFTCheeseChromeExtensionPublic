@@ -1,4 +1,4 @@
-# How to install UPEZ Custom Cart Drawer
+# 🛒 How to install UPEZ Custom Cart Drawer
 
 Follow the instructions below depending on your Shopify theme version. If you are unsure about what version your Shopify theme is, contact our support team at [support@upez.io](mailto:support@upez.io) and we will help you out.
 
