@@ -1,6 +1,10 @@
-# 🛒 How to install UPEZ Custom Cart Drawer
+# 🛒 How to enable/disable UPEZ Custom Cart Drawer
 
 Follow the instructions below depending on your Shopify theme version. If you are unsure about what version your Shopify theme is, contact our support team at [support@upez.io](mailto:support@upez.io) and we will help you out.
+
+
+
+## To enable UPEZ Custom Cart Drawer
 
 {% tabs %}
 {% tab title="Shopify 2.0" %}
@@ -36,3 +40,10 @@ Follow the instructions below depending on your Shopify theme version. If you ar
 {% endtab %}
 {% endtabs %}
 
+
+
+## To disable UPEZ Custom Cart Drawer
+
+You just need to turn UPEZ Custom Cart Drawer toggle button off
+
+<figure><img src="../.gitbook/assets/CleanShot 2022-08-28 at 23.24.28.jpg" alt=""><figcaption></figcaption></figure>

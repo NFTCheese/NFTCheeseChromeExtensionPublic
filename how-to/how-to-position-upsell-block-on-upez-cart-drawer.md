@@ -3,7 +3,7 @@
 {% hint style="info" %}
 Note that you will need to enable UPEZ Custom Cart Drawer first. If you haven't done that, check out this article:
 
-[how-to-install-upez-custom-cart-drawer.md](how-to-install-upez-custom-cart-drawer.md "mention")
+[how-to-enable-disable-upez-custom-cart-drawer.md](how-to-enable-disable-upez-custom-cart-drawer.md "mention")
 {% endhint %}
 
 1. Navigate to the Custom Cart Drawer tab.
