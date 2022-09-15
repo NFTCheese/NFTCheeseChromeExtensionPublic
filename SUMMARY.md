@@ -11,5 +11,6 @@
 
 ## Tutorials
 
+* [Getting started](tutorials/getting-started.md)
 * [How to upsell like Gymshark](tutorials/how-to-upsell-like-gymshark.md)
 * [How to create a bundle on product page](tutorials/how-to-create-a-bundle-on-product-page.md)
